@@ -1,0 +1,68 @@
+# for lowlevel
+e2fsprogs
+f2fs-tools
+
+ca-certificates
+openwrt-keyring
+rng-tools
+
+dnsmasq-full
+generate-ipv6-address
+
+-firewall
+firewall4
+
+zoneinfo-core
+zoneinfo-america
+zoneinfo-asia
+zoneinfo-europe
+
+# for system utils
+ip-full
+wget
+coreutils
+ripgrep
+sed
+htop
+zsh
+vim
+tmux
+which
+tree
+arp-scan
+lsof
+dejavu-fonts-ttf
+ncdu
+dnstop
+dnslookup
+tcpdump
+
+# for compression
+tar
+unzip
+xz
+gzip
+bzip2
+
+# for mdns
+avahi-nodbus-daemon
+avahi-daemon-service-http
+avahi-dnsconfd
+# too heavy, requiring dbus
+#avahi-utils
+
+# for sudo
+sudo
+
+# Optional improve
+irqbalance
+bpftool-full
+cloudflared
+wireguard-tools
+adguardhome
+smartdns
+
+# extra
+#syslog-ng
+#zabbix-agentd
+#zabbix-sender

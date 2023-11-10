@@ -1,0 +1,6 @@
+kmod-fs-ext4
+kmod-fs-f2fs
+kmod-fs-xfs
+kmod-usb3
+
+kmod-tcp-bbr
