@@ -1,6 +1,6 @@
 # Wiki
 
-# Glossary
+## Glossary
 
 固件格式
 
@@ -31,7 +31,6 @@ uci set uhttpd.main.listen_http="192.168.1.1:80"
 uci commit
 /etc/init.d/uhttpd restart
 ```
-
 
 ## User guides
 
@@ -81,3 +80,8 @@ uci commit
 
 - [AdGuard Home](https://openwrt.org/docs/guide-user/services/dns/adguard-home)
 - [Show available package upgrades after SSH login](https://openwrt.org/docs/guide-user/additional-software/show_upgradable_packages_after_ssh_login)
+
+## CLI based upgrades
+
+- [](https://openwrt.org/docs/guide-user/installation/generic.sysupgrade#command-line_instructions)
+- https://openwrt.org/docs/guide-user/installation/sysupgrade.cli
