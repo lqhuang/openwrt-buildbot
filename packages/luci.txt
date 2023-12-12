@@ -1,0 +1,58 @@
+# for theme and related
+luci-theme-argone
+luci-app-argon-config
+
+
+# for official luci upstream
+luci-app-acl
+luci-app-acme
+luci-app-ahcp
+luci-app-attendedsysupgrade
+luci-app-ddns
+luci-app-email
+luci-app-firewall
+luci-app-opkg
+luci-app-pbr
+luci-app-smartdns
+luci-app-statistics
+luci-app-udpxy
+luci-app-vnstat2
+luci-app-watchcat
+luci-app-wol
+luci-mod-admin-full
+luci-mod-dashboard
+luci-mod-network
+luci-mod-status
+luci-mod-system
+luci-proto-bonding
+luci-proto-wireguard
+
+# for third upstream luci-app
+
+luci-app-gost
+luci-app-openclash
+luci-app-mosdns
+luci-app-passwall
+luci-app-smartdns
+luci-app-store
+
+
+#???
+luci-app-acme # for what?
+luci-app-vlmcsd
+luci-app-bbr #  name ?
+luci-app-arpbind
+
+luci-app-sqm
+luci-app-qos
+luci-app-statistics
+luci-app-vnstat
+luci-app-wrtbwmon
+
+luci-app-dawn
+luci-app-filetransfer
+
+luci-app-adguardhome
+
+
+luci-app-advanced?

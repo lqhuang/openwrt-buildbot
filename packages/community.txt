@@ -1,0 +1,13 @@
+filebrowser
+mosdns
+naiveproxy
+shadow-tls
+shadowsocks-rust
+smartdns
+tuic-client
+tcping
+iperf3
+automount
+clash
+
+luci-app-wrtbwmon
