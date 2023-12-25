@@ -76,6 +76,11 @@ uci commit
   - [Saving firmware space and RAM](https://openwrt.org/docs/guide-user/additional-software/saving_space)
   - [Extroot configuration](https://openwrt.org/docs/guide-user/additional-software/extroot_configuration)
 
+## Monitoring
+
+- [User guide / LuCI web interface / luci-app-statistics](https://openwrt.org/docs/guide-user/luci/luci_app_statistics)
+- [User guide / Performance and logging / collectd](https://openwrt.org/docs/guide-user/perf_and_log/statistic.collectd)
+
 ## Additional enhancements
 
 - [AdGuard Home](https://openwrt.org/docs/guide-user/services/dns/adguard-home)
