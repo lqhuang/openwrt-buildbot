@@ -54,12 +54,14 @@ reformat-packages:
 	@echo "Done"
 
 setup-provision:
+	pushd ${BUILDROOT} && git restore . && popd
+
 	cat config >> ${CUSTOM}/.config
 	python3 write-packages.py ./packages/* >> ${CUSTOM}/.config
 
 	sed -i 's/src-git telephony/#src-git telephony/g' ${BUILDROOT}/feeds.conf.default
 	cat ${CUSTOM}/feeds.conf.default >> ${BUILDROOT}/feeds.conf.default
-	cat ${CUSTOM}/.config >> ${BUILDROOT}/.config
+	cp -f ${CUSTOM}/.config ${BUILDROOT}/.config
 
 	rsync -ahP --delete ${CUSTOM}/files ${BUILDROOT}/
 
