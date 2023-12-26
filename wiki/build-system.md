@@ -12,6 +12,6 @@
 
 ```sh
 apt install build-essential clang g++ gcc-multilib g++-multilib \
-libncurses-dev libncursesw-dev libssl-dev zlib1g-dev \
-flex bison gawk git gettext xsltproc rsync curl wget unzip python3
+    libncurses-dev libncursesw-dev libssl-dev zlib1g-dev \
+    flex bison gawk git gettext xsltproc rsync curl wget unzip python3
 ```

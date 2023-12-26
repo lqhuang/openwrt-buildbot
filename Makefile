@@ -50,50 +50,61 @@ setup-openwrt-src:
 
 reformat-packages:
 	@echo "Reformat packages..."
-	python3 write-packages.py ./packages/*
+	python3 write-packages.py ./packages/* > ${CUSTOM}/config/2.packages.config
 	@echo "Done"
 
-setup-provision:
-	pushd ${BUILDROOT} && git restore . && popd
+bump-config: reformat-packages
+	rm -f ${CUSTOM}/.config ${CUSTOM}/.config.old
+	cat ${CUSTOM}/config/0.base.config ${CUSTOM}/config/1.tune.config ${CUSTOM}/config/2.packages.config > ${CUSTOM}/.config
 
-	cat config >> ${CUSTOM}/.config
-	python3 write-packages.py ./packages/* >> ${CUSTOM}/.config
+provision: bump-config
+	pushd ${BUILDROOT} && git restore . && popd
 
 	sed -i 's/src-git telephony/#src-git telephony/g' ${BUILDROOT}/feeds.conf.default
 	cat ${CUSTOM}/feeds.conf.default >> ${BUILDROOT}/feeds.conf.default
 	cp -f ${CUSTOM}/.config ${BUILDROOT}/.config
-
-	rsync -ahP --delete ${CUSTOM}/files ${BUILDROOT}/
+	cp -r ${CUSTOM}/files ${BUILDROOT}/
+	#rsync -ahP --delete ${CUSTOM}/files ${BUILDROOT}/
 
 ## Build stage
 
-.PHONY: update-feeds configure pre-build build
+.PHONY: update-feeds configure prepare pre-build build
 
 update-feeds:
 	pushd ${BUILDROOT}
 	./scripts/feeds update -a
+	popd
+
+install-feeds:
+	pushd ${BUILDROOT}
 	./scripts/feeds install -a
 	popd
 
-configure: update-feeds
+configure:
 	@echo "Configuring ..."
-	make -C ${BUILDROOT} menuconfig
+	# make -C ${BUILDROOT} menuconfig # config by GUI
 	make -C ${BUILDROOT} defconfig
 	# make  -C ${BUILDROOT} kernel_menuconfig # CONFIG_TARGET=subtarget
 
-pre-build: configure
+prepare:
+	${MAKE} clean
+	${MAKE} provision
+	${MAKE} update-feeds
+	${MAKE} configure
+
+pre-build:
 	make -C ${BUILDROOT} download
 	make -C ${BUILDROOT} world -j${N_PROC}
 
 build: pre-build
-	make -C ${BUILDROOT} download
-	make -C ${BUILDROOT} world -j${N_PROC}
-
 	make -C ${BUILDROOT} -j${N_PROC}
 	make -C ${BUILDROOT} checksum
 
 clean:
 	make -C ${BUILDROOT} clean
+
+clean-buildroot:
+	rm -rf ${BUILDROOT}
 
 ## Debug
 

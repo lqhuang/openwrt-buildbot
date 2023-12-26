@@ -1,4 +1,5 @@
 ### for theme and related
+luci-theme-openwrt
 luci-theme-argone
 luci-app-argon-config
 
@@ -9,10 +10,10 @@ luci-app-ahcp
 luci-app-attendedsysupgrade
 luci-app-ddns
 luci-app-email
-
 luci-app-firewall
 luci-app-opkg
-luci-app-pbr # Web UI for Policy Based Routing Service
+# Web UI for Policy Based Routing Service
+luci-app-pbr
 luci-app-udpxy
 luci-app-wol
 
@@ -41,6 +42,7 @@ collectd-mod-ping
 collectd-mod-memory
 collectd-mod-sqm
 collectd-mod-uptime
+collectd-mod-vmem
 
 luci-mod-admin-full
 luci-mod-dashboard
@@ -48,6 +50,8 @@ luci-mod-network
 luci-mod-status
 luci-mod-system
 luci-proto-bonding
+luci-proto-vxlan
+luci-proto-ipv6
 luci-proto-wireguard
 
 ### for third luci-app
@@ -56,3 +60,26 @@ luci-app-passwall2 # src https://github.com/xiaorouji/openwrt-passwall2
 #luci-app-openclash
 #luci-app-mosdns
 #luci-app-smartdns
+
+
+## Config for passwall
+-luci-app-passwall2_Iptables_Transparent_Proxy
+luci-app-passwall2_Nftables_Transparent_Proxy
+luci-app-passwall2_INCLUDE_Brook
+luci-app-passwall2_INCLUDE_Haproxy
+-luci-app-passwall2_INCLUDE_Hysteria
+luci-app-passwall2_INCLUDE_NaiveProxy
+-luci-app-passwall2_INCLUDE_Shadowsocks_Libev_Client
+-luci-app-passwall2_INCLUDE_Shadowsocks_Libev_Server
+luci-app-passwall2_INCLUDE_Shadowsocks_Rust_Client
+luci-app-passwall2_INCLUDE_Shadowsocks_Rust_Server
+-luci-app-passwall2_INCLUDE_ShadowsocksR_Libev_Client
+-luci-app-passwall2_INCLUDE_ShadowsocksR_Libev_Server
+-luci-app-passwall2_INCLUDE_Simple_Obfs
+luci-app-passwall2_INCLUDE_SingBox
+luci-app-passwall2_INCLUDE_tuic_client
+-luci-app-passwall2_INCLUDE_V2ray_Plugin
+
+
+## Disable these
+-luci-app-ssr-plus

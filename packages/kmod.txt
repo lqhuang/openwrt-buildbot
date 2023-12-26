@@ -1,9 +1,33 @@
+# Block devices
+kmod-nvme
+
+# Cryptographic API modules
+kmod-crypto-aead
+kmod-crypto-chacha20poly1305
+kmod-crypto-ecdh
+kmod-crypto-gcm
+kmod-crypto-hmac
+kmod-crypto-md5
+kmod-crypto-sha256
+kmod-crypto-sha512
+
+# Filesystems
+kmod-fs-exfat
 kmod-fs-ext4
 kmod-fs-f2fs
+kmod-fs-squashfs
 kmod-fs-xfs
-kmod-usb3
 
-kmod-tcp-bbr
-kmod-nft-offload
+# Netfilter Extensions
 kmod-nft-arp
+kmod-nft-nat
+kmod-nft-offload
 kmod-nft-tproxy
+
+# Network Support
+kmod-tcp-bbr
+kmod-tcp-hybla
+kmod-tls
+
+# USB Support
+kmod-usb3

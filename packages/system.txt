@@ -1,10 +1,15 @@
-# for lowlevel
+## for lowlevel
 e2fsprogs
 f2fs-tools
+# `xfsprogs` includes `xfs-admin`, `xfs-mkfs`, `xfs-fsck`, `xfs-growfs`
+xfs-fsck
+xfs-growfs
+xfs-mkfs
 
 ca-certificates
 openwrt-keyring
 rng-tools
+ntpd
 
 dnsmasq-full
 generate-ipv6-address
@@ -17,55 +22,78 @@ zoneinfo-america
 zoneinfo-asia
 zoneinfo-europe
 
-# for system utils
+## Network
+snmp-utils
+snmpd
+irqbalance
+smartdns
+sing-box
+xray-core
+
+## for system utils
+lsblk
+fdisk
+gdisk
+parted
+nvme-cli
+
+bash
+zsh
+
+coreutils
 ip-full
 wget
-coreutils
-ripgrep
-sed
-htop
-zsh
-vim
-tmux
+less
 which
 tree
-arp-scan
 lsof
+grep
+
+htop
+vim
+#ripgrep
+#tmux
+tcpdump
+iperf3
 ncdu
 bind-dig
 dnstop
-dnslookup
-tcpdump
-iperf3
-dejavu-fonts-ttf
 
-# for compression
+arp-scan
+arp-scan-database
+
+## for compression
 tar
 unzip
 xz
 gzip
 bzip2
+lz4
+zstd
+pigz
 
-# for mdns
+## for mdns
 avahi-nodbus-daemon
 avahi-daemon-service-http
 avahi-dnsconfd
-# too heavy, requiring dbus
+# NOTE: too heavy, requiring dbus
 #avahi-utils
 
-# for sudo
+## for sudo
 sudo
 
-# Optional improve
-irqbalance
+## Optional improve
 bpftool-full
+ddns-scripts-cloudflare
 cloudflared
 wireguard-tools
 adguardhome
-smartdns
-sing-box
 
 # extra
 #syslog-ng
 #zabbix-agentd
 #zabbix-sender
+
+## bug fix (I don't know why some packages require them ...)
+-python3-pymysql
+-python3-pyodbc
