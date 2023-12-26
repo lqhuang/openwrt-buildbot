@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # uci -q batch << EOI
 # set network.lan.ipaddr='192.168.178.1'
 # set wireless.@wifi-device[0].disabled='0'

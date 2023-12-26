@@ -63,6 +63,7 @@ cloudflared
 wireguard-tools
 adguardhome
 smartdns
+sing-box
 
 # extra
 #syslog-ng

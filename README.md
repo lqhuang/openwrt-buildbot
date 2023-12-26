@@ -9,7 +9,7 @@ no wifi
 
 ## Key Features
 
-a web interface is usually listening at http://openwrt.lan/ by default.
+a web interface is usually listening at http://openwrt.local/ by default.
 
 ## Notes for compiling
 
@@ -26,6 +26,7 @@ The firmware make process automatically creates the configuration diff file
 
 ## Inspired from
 
+- [icyleaf/openwrt-autobuilder](https://github.com/icyleaf/openwrt-autobuilder)
 - [Zheaoli/Auto-OpenWrt](https://github.com/Zheaoli/Auto-OpenWrt)
 
 ## References

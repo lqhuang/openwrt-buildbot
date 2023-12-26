@@ -1,3 +1,5 @@
+#!/bin/sh
+
 USER_NAME="admin"
 USER_SSHPUB="SSH_PUBLIC_KEY"
 USER_SHELL="/bin/zsh"
@@ -20,7 +22,9 @@ EOI
 
 uci set dropbear.@dropbear[0].PasswordAuth="0"
 uci set dropbear.@dropbear[0].RootPasswordAuth="0"
+
 uci commit dropbear
+
 /etc/init.d/dropbear restart
 
 exit 0
