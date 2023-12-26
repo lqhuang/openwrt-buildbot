@@ -3,7 +3,7 @@ SHELL := bash
 .ONESHELL:
 
 export DEBIAN_FRONTEND := noninteractive
-N_PROC = $(shell nproc)
+export N_PROC = $(shell nproc)
 
 OPENWRT_VERSION ?= 23.05
 OPENWRT_VERSION_PATCH ?= 23.05.2
@@ -17,9 +17,12 @@ OPENWRT_IMAGEBUILDER = openwrt-imagebuilder-${OPENWRT_VERSION_PATCH}-$(subst _,-
 URL_IMAGE_BUILD_ARTIFACT := ${OPENWRT_RELEASES}/${OPENWRT_BUILD_TARGET}/${OPENWRT_IMAGEBUILDER}.tar.xz
 
 OPENWRT_REPO := https://github.com/openwrt/openwrt.git
-OPENWRT_SRC := openwrt
+BUILDROOT := openwrt
 
-BUILDROOT = ./buildroot
+# directory to put customized files
+CUSTOM = custom
+
+## Setup stage
 
 pre-setup:
 	[ $(docker images -q) -ne '' ] && docker rmi `docker images -q`
@@ -41,13 +44,12 @@ setup-image-builder:
 	# cd ./${OPENWRT_IMAGEBUILDER}
 
 setup-openwrt-src:
-	git clone --depth 1 --branch openwrt-${OPENWRT_VERSION} ${OPENWRT_REPO} ./${OPENWRT_SRC}
+	git clone --depth 1 --branch openwrt-${OPENWRT_VERSION} ${OPENWRT_REPO} ./${BUILDROOT}
 
 setup-provision:
-	# python3 collect-packages.py
-	sed -i 's/src-git telephony/#src-git telephony/g' ${OPENWRT_SRC}/feeds.conf.default
-	cat ${BUILDROOT}/feeds.conf.default >> ${OPENWRT_SRC}/feeds.conf.default
-	rsync -ahP --delete ${BUILDROOT}/files ${OPENWRT_SRC}/
+	sed -i 's/src-git telephony/#src-git telephony/g' ${BUILDROOT}/feeds.conf.default
+	cat ${CUSTOM}/feeds.conf.default >> ${BUILDROOT}/feeds.conf.default
+	rsync -ahP --delete ${CUSTOM}/files ${BUILDROOT}/
 
 resort-packages:
 	@echo "Resorting packages..."
@@ -60,24 +62,37 @@ resort-packages:
 .PHONY: update-feeds build
 
 update-feeds:
-	pushd ${OPENWRT_SRC}
+	pushd ${BUILDROOT}
 	./scripts/feeds update -a
 	./scripts/feeds install -a
+	popd
 
+configure: update-feeds
+	@echo "Configuring ..."
+	make -C ${BUILDROOT} menuconfig
+	make -C ${BUILDROOT} defconfig
+	# make  -C ${BUILDROOT} kernel_menuconfig # CONFIG_TARGET=subtarget
 
-build: update-feeds
-	@echo "Building..."
-	make -C ${OPENWRT_SRC} menuconfig
+pre-build: configure
+	make -C ${BUILDROOT} download
+	make -C ${BUILDROOT} world -j${N_PROC}
 
-	make -C ${OPENWRT_SRC} defconfig
-	make -C ${OPENWRT_SRC} download -j${N_PROC}
-	make -C ${OPENWRT_SRC} clean -j${N_PROC}
+build: pre-build
+	make -C ${BUILDROOT} download
+	make -C ${BUILDROOT} world -j${N_PROC}
 
-	make -C ${OPENWRT_SRC} -j${N_PROC}
+	make -C ${BUILDROOT} -j${N_PROC}
+	make -C ${BUILDROOT} checksum
+
+clean:
+	make -C ${BUILDROOT} clean
+
+## Debug
 
 .PHONY: rsync
+
+# rsync files to myself debug server. Do not use this command.
 rsync:
-	# rsync files to myself debug server. Do not use this command.
 	rsync -azhP --delete \
-		--exclude="**/.mypy_cache" --exclude="openwrt"  \
+		--exclude="**/.mypy_cache" --exclude=${BUILDROOT}  \
 		./ build-server:~/app/openwrt-buildbot/
