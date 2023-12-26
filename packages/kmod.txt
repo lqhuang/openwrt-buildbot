@@ -4,3 +4,6 @@ kmod-fs-xfs
 kmod-usb3
 
 kmod-tcp-bbr
+kmod-nft-offload
+kmod-nft-arp
+kmod-nft-tproxy

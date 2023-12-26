@@ -31,11 +31,13 @@ which
 tree
 arp-scan
 lsof
-dejavu-fonts-ttf
 ncdu
+bind-dig
 dnstop
 dnslookup
 tcpdump
+iperf3
+dejavu-fonts-ttf
 
 # for compression
 tar

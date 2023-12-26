@@ -18,6 +18,7 @@
 
 ## Monitoring
 
+- https://github.com/openwrt/packages/pull/16282
 - https://openwrt.org/docs/guide-user/advanced/watchcat
 - https://openwrt.org/docs/guide-user/services/network_monitoring/bwmon
 - https://github.com/benisai/Openwrt-Monitoring
