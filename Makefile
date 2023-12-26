@@ -23,6 +23,7 @@ BUILDROOT := openwrt
 CUSTOM = custom
 
 ## Setup stage
+.PHONY: README.md
 
 pre-setup:
 	[ $(docker images -q) -ne '' ] && docker rmi `docker images -q`
@@ -46,16 +47,20 @@ setup-image-builder:
 setup-openwrt-src:
 	git clone --depth 1 --branch openwrt-${OPENWRT_VERSION} ${OPENWRT_REPO} ./${BUILDROOT}
 
+reformat-packages:
+	@echo "Reformat packages..."
+	python3 write-packages.py ./packages/*
+	@echo "Done"
+
 setup-provision:
+	cat config >> ${CUSTOM}/.config
+	python3 write-packages.py ./packages/* >> ${CUSTOM}/.config
+
 	sed -i 's/src-git telephony/#src-git telephony/g' ${BUILDROOT}/feeds.conf.default
 	cat ${CUSTOM}/feeds.conf.default >> ${BUILDROOT}/feeds.conf.default
-	rsync -ahP --delete ${CUSTOM}/files ${BUILDROOT}/
+	cat ${CUSTOM}/.config >> ${BUILDROOT}/.config
 
-resort-packages:
-	@echo "Resorting packages..."
-	python3 sort-packages.py app.txt
-	python3 sort-packages.py luci.txt
-	@echo "Done"
+	rsync -ahP --delete ${CUSTOM}/files ${BUILDROOT}/
 
 ## Build stage
 
