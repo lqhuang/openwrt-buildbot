@@ -46,6 +46,7 @@ setup-image-builder:
 
 setup-openwrt-src:
 	git clone --depth 1 --branch openwrt-${OPENWRT_VERSION} ${OPENWRT_REPO} ./${BUILDROOT}
+	# [[ $? -ne 0 ]] && pushd ${BUILDROOT} && git pull && popd
 
 reformat-packages:
 	@echo "Reformat packages..."
@@ -64,7 +65,7 @@ setup-provision:
 
 ## Build stage
 
-.PHONY: update-feeds build
+.PHONY: update-feeds configure pre-build build
 
 update-feeds:
 	pushd ${BUILDROOT}
