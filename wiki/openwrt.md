@@ -88,5 +88,5 @@ uci commit
 
 ## CLI based upgrades
 
-- [](https://openwrt.org/docs/guide-user/installation/generic.sysupgrade#command-line_instructions)
-- https://openwrt.org/docs/guide-user/installation/sysupgrade.cli
+- [Upgrading OpenWrt firmware using LuCI and CLI - Command-line instructions](https://openwrt.org/docs/guide-user/installation/generic.sysupgrade#command-line_instructions)
+- [Upgrading OpenWrt firmware using CLI](https://openwrt.org/docs/guide-user/installation/sysupgrade.cli)

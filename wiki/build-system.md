@@ -9,6 +9,7 @@
 - [OpenWrt Feeds](https://openwrt.org/docs/guide-developer/feeds)
 - [Build system usage](https://openwrt.org/docs/guide-developer/toolchain/use-buildsystem)
 - [Kernel related options](https://openwrt.org/docs/techref/buildroot)
+- [Cryptographic Hardware Accelerators](https://openwrt.org/docs/techref/hardware/cryptographic.hardware.accelerators)
 
 ## Install prerequisites
 
@@ -202,7 +203,7 @@ classified by the target platform and subtarget
   musl or gcc change. Does a `make clean` and deletes also the directories
   `/build_dir/toolchain*` and `/staging_dir/toolchain*` (= the cross-compile
   tools).
-- `make dirclean`: This is your basic “full clean” operation. Cleans all
+- `make dirclean`: This is your basic "full clean" operation. Cleans all
   compiled binaries, tools, toolchain, tmp etc. `/bin` and `/build_dir` and
   `/staging_dir` (= tools and the cross-compile toolchain), `/tmp` (e.g data
   about packages) and `/logs`
@@ -217,6 +218,19 @@ classified by the target platform and subtarget
   - `make package/luci/clean`
 
 ## Tips
+
+### Warnings, errors and tracing
+
+The parameter `V=x` specifies level of messages in the process of the build.
+
+    V=99 and V=1 are now deprecated in favor of a new verbosity class system,
+    though the old flags are still supported.
+    You can set the V variable on the command line (or OPENWRT_VERBOSE in the
+    environment) to one or more of the following characters:
+
+    - s: stdout+stderr (equal to the old V=99)
+    - c: commands (for build systems that suppress commands by default, e.g. kbuild, cmake)
+    - w: warnings/errors only (equal to the old V=1)
 
 ### Spotting build errors
 
