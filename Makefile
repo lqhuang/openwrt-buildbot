@@ -42,11 +42,15 @@ pre-setup:
 
 setup-image-builder:
 	curl -L ${URL_IMAGE_BUILD_ARTIFACT} | tar -xJf - -C ./
-	# cd ./${OPENWRT_IMAGEBUILDER}
+
+setup-openwrt-branch:
+	git clone --depth 1 --single-branch --branch openwrt-${OPENWRT_VERSION} ${OPENWRT_REPO} ./${BUILDROOT}
+
+setup-openwrt-tag:
+	git clone --depth 1 --single-branch --branch v${OPENWRT_VERSION_PATCH} ${OPENWRT_REPO} ./${BUILDROOT}
 
 setup-openwrt-src:
-	git clone --depth 1 --branch openwrt-${OPENWRT_VERSION} ${OPENWRT_REPO} ./${BUILDROOT}
-	# [[ $? -ne 0 ]] && pushd ${BUILDROOT} && git pull && popd
+	git clone --depth 1 --single-branch ${OPENWRT_REPO} ./${BUILDROOT}
 
 reformat-packages:
 	@echo "Reformat packages..."
@@ -55,20 +59,17 @@ reformat-packages:
 
 bump-config: reformat-packages
 	rm -f ${CUSTOM}/.config ${CUSTOM}/.config.old
-	cat ${CUSTOM}/config/0.base.config ${CUSTOM}/config/1.tune.config ${CUSTOM}/config/2.packages.config > ${CUSTOM}/.config
+	cat ${CUSTOM}/config/0.base.config ${CUSTOM}/config/1.kernel.config ${CUSTOM}/config/2.packages.config > ${CUSTOM}/.config
 
 provision: bump-config
-	pushd ${BUILDROOT} && git restore . && popd
-
 	sed -i 's/src-git telephony/#src-git telephony/g' ${BUILDROOT}/feeds.conf.default
 	cat ${CUSTOM}/feeds.conf.default >> ${BUILDROOT}/feeds.conf.default
 	cp -f ${CUSTOM}/.config ${BUILDROOT}/.config
-	cp -r ${CUSTOM}/files ${BUILDROOT}/
-	#rsync -ahP --delete ${CUSTOM}/files ${BUILDROOT}/
+	cp -rf ${CUSTOM}/files ${BUILDROOT}/
 
 ## Build stage
 
-.PHONY: update-feeds configure prepare pre-build build
+.PHONY: update-feeds install-feeds configure prepare pre-build build full-clean
 
 update-feeds:
 	pushd ${BUILDROOT}
@@ -82,29 +83,22 @@ install-feeds:
 
 configure:
 	@echo "Configuring ..."
-	# make -C ${BUILDROOT} menuconfig # config by GUI
 	make -C ${BUILDROOT} defconfig
 	# make  -C ${BUILDROOT} kernel_menuconfig # CONFIG_TARGET=subtarget
 
-prepare:
-	${MAKE} clean
-	${MAKE} provision
-	${MAKE} update-feeds
-	${MAKE} configure
+prepare: provision update-feeds install-feeds configure
 
 pre-build:
-	make -C ${BUILDROOT} download
+	make -C ${BUILDROOT} download -j${N_PROC}
+	make -C ${BUILDROOT} clean
 	make -C ${BUILDROOT} world -j${N_PROC}
 
 build: pre-build
 	make -C ${BUILDROOT} -j${N_PROC}
 	make -C ${BUILDROOT} checksum
 
-clean:
-	make -C ${BUILDROOT} clean
-
-clean-buildroot:
-	rm -rf ${BUILDROOT}
+full-clean:
+	make -C ${BUILDROOT} distclean
 
 ## Debug
 

@@ -3,11 +3,13 @@ kmod-nvme
 
 # Cryptographic API modules
 kmod-crypto-aead
+kmod-crypto-aes
 kmod-crypto-chacha20poly1305
+kmod-crypto-core
+kmod-crypto-des
 kmod-crypto-ecdh
 kmod-crypto-gcm
 kmod-crypto-hmac
-kmod-crypto-md5
 kmod-crypto-sha256
 kmod-crypto-sha512
 
@@ -28,6 +30,7 @@ kmod-nft-tproxy
 kmod-tcp-bbr
 kmod-tcp-hybla
 kmod-tls
+kmod-tun
 
 # USB Support
 kmod-usb3

@@ -1,7 +1,7 @@
 ### for theme and related
 luci-theme-openwrt
-luci-theme-argone
-luci-app-argon-config
+#luci-theme-argone
+#luci-app-argon-config
 
 ### for official luci upstream
 luci-app-acl
@@ -12,7 +12,6 @@ luci-app-ddns
 luci-app-email
 luci-app-firewall
 luci-app-opkg
-# Web UI for Policy Based Routing Service
 luci-app-pbr
 luci-app-udpxy
 luci-app-wol
@@ -22,8 +21,7 @@ luci-app-sqm
 
 luci-app-nlbwmon
 luci-app-vnstat2
-#luci-app-wrtbwmon # https://github.com/brvphoenix/luci-app-wrtbwmon
-luci-app-watchcat #  Watchcat is a ping-watchdog utility that allows you to set up rules for when a ping to a particular host fails.
+luci-app-watchcat
 darkstat
 
 luci-app-statistics

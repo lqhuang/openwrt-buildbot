@@ -49,6 +49,10 @@ The firmware make process automatically creates the configuration diff file
 - [SuLingGG/OpenWrt-Rpi](https://github.com/SuLingGG/OpenWrt-Rpi): Raspberry Pi
   & NanoPi R2S/R4S & G-Dock & x86 OpenWrt Compile Project. (Based on Github
   Action / Daily Update)
+- [kenzok8/openwrt-packages](https://github.com/kenzok8/openwrt-packages):
+  openwrt 常用软件包 <https://op.dllkids.xyz>
+- [kenzok8/small](https://github.com/kenzok8/small): ssr passwall vssr bypass 依
+  赖
 - [freifunk-berlin/ansible](https://github.com/freifunk-berlin/ansible): ansible
   config management for Freifunk Berlin infrastructure. Holds buildbot,
   IP-Addr-management and others
