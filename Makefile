@@ -1,26 +1,46 @@
+## Config Make
 SHELL := bash
 .SHELLFLAGS := -eu -o pipefail -c
 .ONESHELL:
 
+## Global envs
 export DEBIAN_FRONTEND := noninteractive
-export N_PROC = $(shell nproc)
+nproc = $(shell nproc)
+ifeq ($(shell expr ${nproc} == 1),1)
+	export NPROC = $(shell expr ${nproc} + 1)
+else ifeq ($(shell expr ${nproc} \<= 4),1)
+	# with less cores
+	export NPROC = $(shell expr ${nproc} + 2)
+else
+	# with powerful machine
+	export NPROC = $(shell expr ${nproc} + 4)
+endif
 
+## Envs for OpenWrt
 OPENWRT_VERSION ?= 23.05
 OPENWRT_VERSION_PATCH ?= 23.05.2
-
 OPENWRT_DOWNLOADS := https://downloads.openwrt.org
 OPENWRT_RELEASES := ${OPENWRT_DOWNLOADS}/releases/${OPENWRT_VERSION_PATCH}/targets
 OPENWRT_BUILD_TARGET := x86/64
 OPENWRT_BUILD_TARGET_ARCH := x86_64
 OPENWRT_IMAGEBUILDER = openwrt-imagebuilder-${OPENWRT_VERSION_PATCH}-$(subst _,-,${OPENWRT_BUILD_TARGET_ARCH}).Linux-${OPENWRT_BUILD_TARGET_ARCH}
 # example: https://downloads.openwrt.org/releases/23.05.2/targets/x86/64/openwrt-imagebuilder-23.05.2-x86-64.Linux-x86_64.tar.xz
-URL_IMAGE_BUILD_ARTIFACT := ${OPENWRT_RELEASES}/${OPENWRT_BUILD_TARGET}/${OPENWRT_IMAGEBUILDER}.tar.xz
-
+OPENWRT_IMAGE_BUILD_ARTIFACT := ${OPENWRT_RELEASES}/${OPENWRT_BUILD_TARGET}/${OPENWRT_IMAGEBUILDER}.tar.xz
 OPENWRT_REPO := https://github.com/openwrt/openwrt.git
+# directory for build root
 BUILDROOT := openwrt
-
 # directory to put customized files
-CUSTOM = custom
+CUSTOM := custom
+# directory to store final artifacts
+ARTIFACTS := artifacts
+
+## For env debug
+
+show-nproc:
+	echo ${NPROC}
+
+show-cflags:
+	echo ${CFLAGS}
 
 ## Setup stage
 .PHONY: README.md
@@ -41,7 +61,7 @@ pre-setup:
 	sudo -E apt clean -qq
 
 setup-image-builder:
-	curl -L ${URL_IMAGE_BUILD_ARTIFACT} | tar -xJf - -C ./
+	curl -L ${OPENWRT_IMAGE_BUILD_ARTIFACT} | tar -xJf - -C ./
 
 setup-openwrt-branch:
 	git clone --depth 1 --single-branch --branch openwrt-${OPENWRT_VERSION} ${OPENWRT_REPO} ./${BUILDROOT}
@@ -52,24 +72,33 @@ setup-openwrt-tag:
 setup-openwrt-src:
 	git clone --depth 1 --single-branch ${OPENWRT_REPO} ./${BUILDROOT}
 
+pull-buildroot:
+	pushd ${BUILDROOT}; git pull; popd
+
+CUSTOM_PACKAGES_CONFIG := 10.custom.config
+
 reformat-packages:
 	@echo "Reformat packages..."
-	python3 write-packages.py ./packages/* > ${CUSTOM}/config/2.packages.config
+	python3 write-packages.py ./packages/* > ${CUSTOM}/config/${CUSTOM_PACKAGES_CONFIG}
 	@echo "Done"
 
 bump-config: reformat-packages
-	rm -f ${CUSTOM}/.config ${CUSTOM}/.config.old
-	cat ${CUSTOM}/config/0.base.config ${CUSTOM}/config/1.kernel.config ${CUSTOM}/config/2.packages.config > ${CUSTOM}/.config
+	rm -f ${CUSTOM}/.config ${CUSTOM}/.config.old ${BUILDROOT}/.config ${BUILDROOT}/.config.old
+	cat ${CUSTOM}/config/0.base.config \
+		${CUSTOM}/config/1.kernel.config \
+		${CUSTOM}/config/2.image.config \
+		${CUSTOM}/config/${CUSTOM_PACKAGES_CONFIG} \
+		> ${BUILDROOT}/.config
 
 provision: bump-config
+	pushd ${BUILDROOT}; git restore feeds.conf.default; popd
 	sed -i 's/src-git telephony/#src-git telephony/g' ${BUILDROOT}/feeds.conf.default
 	cat ${CUSTOM}/feeds.conf.default >> ${BUILDROOT}/feeds.conf.default
-	cp -f ${CUSTOM}/.config ${BUILDROOT}/.config
 	cp -rf ${CUSTOM}/files ${BUILDROOT}/
 
 ## Build stage
 
-.PHONY: update-feeds install-feeds configure prepare pre-build build full-clean
+.PHONY: update-feeds install-feeds feeds configure prepare pre-build build full-clean
 
 update-feeds:
 	pushd ${BUILDROOT}
@@ -81,24 +110,28 @@ install-feeds:
 	./scripts/feeds install -a
 	popd
 
+feeds: update-feeds update-feeds
+
 configure:
 	@echo "Configuring ..."
 	make -C ${BUILDROOT} defconfig
 	# make  -C ${BUILDROOT} kernel_menuconfig # CONFIG_TARGET=subtarget
+	cp -f ${BUILDROOT}/.config ${ARTIFACTS}/config.buildinfo
 
-prepare: provision update-feeds install-feeds configure
+prepare: provision feeds configure
 
 pre-build:
-	make -C ${BUILDROOT} download -j${N_PROC}
-	make -C ${BUILDROOT} clean
-	make -C ${BUILDROOT} world -j${N_PROC}
+	make -C ${BUILDROOT} download -j${NPROC}
+	make -C ${BUILDROOT} clean world -j${NPROC} CFLAGS=-std=c11
 
 build: pre-build
-	make -C ${BUILDROOT} -j${N_PROC}
+	make -C ${BUILDROOT} -j${NPROC}
 	make -C ${BUILDROOT} checksum
 
 full-clean:
+	make -C ${BUILDROOT} config-clean
 	make -C ${BUILDROOT} distclean
+	pushd ${BUILDROOT}; git reset --hard; popd
 
 ## Debug
 
@@ -109,3 +142,7 @@ rsync:
 	rsync -azhP --delete \
 		--exclude="**/.mypy_cache" --exclude=${BUILDROOT}  \
 		./ build-server:~/app/openwrt-buildbot/
+
+rsync-back:
+	rsync -azhP --delete \
+		 build-server:~/app/openwrt-buildbot/${BUILDROOT}/.config ./${ARTIFACTS}/

@@ -48,6 +48,7 @@ luci-mod-network
 luci-mod-status
 luci-mod-system
 luci-proto-bonding
+luci-proto-ppp
 luci-proto-vxlan
 luci-proto-ipv6
 luci-proto-wireguard
@@ -59,11 +60,10 @@ luci-app-passwall2 # src https://github.com/xiaorouji/openwrt-passwall2
 #luci-app-mosdns
 #luci-app-smartdns
 
-
 ## Config for passwall
 -luci-app-passwall2_Iptables_Transparent_Proxy
 luci-app-passwall2_Nftables_Transparent_Proxy
-luci-app-passwall2_INCLUDE_Brook
+-luci-app-passwall2_INCLUDE_Brook
 luci-app-passwall2_INCLUDE_Haproxy
 -luci-app-passwall2_INCLUDE_Hysteria
 luci-app-passwall2_INCLUDE_NaiveProxy

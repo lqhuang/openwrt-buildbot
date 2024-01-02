@@ -1,5 +1,6 @@
 # Block devices
 kmod-nvme
+kmod-scsi-core
 
 # Cryptographic API modules
 kmod-crypto-aead
@@ -9,9 +10,12 @@ kmod-crypto-core
 kmod-crypto-des
 kmod-crypto-ecdh
 kmod-crypto-gcm
+kmod-crypto-hash
 kmod-crypto-hmac
 kmod-crypto-sha256
 kmod-crypto-sha512
+kmod-crypto-user
+kmod-cryptodev
 
 # Filesystems
 kmod-fs-exfat
@@ -20,17 +24,48 @@ kmod-fs-f2fs
 kmod-fs-squashfs
 kmod-fs-xfs
 
+# Libraries
+kmod-asn1-decoder
+kmod-lib-lz4
+kmod-lib-lzo
+kmod-lib-xor
+kmod-lib-zlib-deflate
+kmod-lib-zlib-inflate
+kmod-lib-zstd
+
 # Netfilter Extensions
+kmod-nf-nat6
+kmod-nf-nathelper
+kmod-nf-nathelper-extra
+kmod-nf-socket
+
 kmod-nft-arp
+kmod-nft-bridge
+kmod-nft-dup-inet
 kmod-nft-nat
+kmod-nft-netdev
 kmod-nft-offload
 kmod-nft-tproxy
 
 # Network Support
+kmod-bonding
+kmod-ppp
+kmod-mppe
+
 kmod-tcp-bbr
 kmod-tcp-hybla
 kmod-tls
 kmod-tun
 
+kmod-veth
+kmod-vxlan
+kmod-wireguard
+
+# Other modules
+kmod-dma-buf
+
 # USB Support
+kmod-usb-net
+kmod-usb-hid
+kmod-usb-xhci-hcd
 kmod-usb3

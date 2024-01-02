@@ -1,14 +1,15 @@
-## for lowlevel
+# Filesystem
 e2fsprogs
 f2fs-tools
-# `xfsprogs` includes `xfs-admin`, `xfs-mkfs`, `xfs-fsck`, `xfs-growfs`
+#xfsprogs # includes `xfs-admin`, `xfs-mkfs`, `xfs-fsck`, `xfs-growfs`
 xfs-fsck
 xfs-growfs
 xfs-mkfs
 
+ca-bundle
 ca-certificates
 openwrt-keyring
-rng-tools
+
 ntpd
 
 dnsmasq-full
@@ -17,60 +18,71 @@ generate-ipv6-address
 -firewall
 firewall4
 
+## Network
+snmp-utils
+snmpd
+
+bash
+zsh
+
+ip-full
+less
+which
+tree
+lsof
+
+wget
+curl
+rsync
+htop
+tcpdump
+iperf3
+bind-dig
+dnstop
+
+arp-scan
+
+# Utilities
+
+## for compression
+bzip2
+gzip
+lz4
+pigz
+unzip
+xz
+zstd
+
+## Disc
+fdisk
+gdisk
+lsblk
+nvme-cli
+parted
+
+## Editors
+vim
+
+## Time Zone info
 zoneinfo-core
 zoneinfo-america
 zoneinfo-asia
 zoneinfo-europe
 
-## Network
-snmp-utils
-snmpd
-irqbalance
-smartdns
-sing-box
-xray-core
+## coreutils bundles (have busybox yet?)
+#coreutils
 
-## for system utils
-lsblk
-fdisk
-gdisk
-parted
-nvme-cli
-
-bash
-zsh
-
-coreutils
-ip-full
-wget
-less
-which
-tree
-lsof
+## Misc
 grep
-
-htop
-vim
-#ripgrep
-#tmux
-tcpdump
-iperf3
-ncdu
-bind-dig
-dnstop
-
-arp-scan
-arp-scan-database
-
-## for compression
+irqbalance
+less
+lsof
+rng-tools
 tar
-unzip
-xz
-gzip
-bzip2
-lz4
-zstd
-pigz
+tree
+which
+
+# end of Utilities
 
 ## for mdns
 avahi-nodbus-daemon
@@ -83,17 +95,19 @@ avahi-dnsconfd
 sudo
 
 ## Optional improve
+openssl-util
 bpftool-full
 ddns-scripts-cloudflare
-cloudflared
 wireguard-tools
 adguardhome
 
-# extra
+## monitoring
 #syslog-ng
 #zabbix-agentd
 #zabbix-sender
 
-## bug fix (I don't know why some packages require them ...)
--python3-pymysql
--python3-pyodbc
+## Web Servers/Proxies
+cloudflared
+haproxy
+sing-box
+-xray-core
