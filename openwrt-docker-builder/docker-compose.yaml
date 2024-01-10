@@ -1,0 +1,18 @@
+services:
+  builder:
+    image: openwrt/sdk:x86_64-main
+    container_name: openwrt-docker-builder
+    hostname: openwrt-docker-builder
+    restart: always
+    init: true
+    user: ${UID?}:${GID?}
+    network_mode: bridge
+    env_file:
+      - .env
+    volumes:
+      - ../artifacts/bin:/builder/bin
+      - ../custom/files:/builder/files
+      - ./feeds.conf.default:/builder/feeds.conf.default
+      - ./.generated.config:/builder/.generated.config
+    stdin_open: true
+    # tty: true

@@ -56,7 +56,7 @@ kmod-tcp-bbr
 kmod-tcp-hybla
 kmod-tls
 kmod-tun
-
+kmod-inet-diag
 kmod-veth
 kmod-vxlan
 kmod-wireguard

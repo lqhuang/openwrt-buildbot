@@ -9,3 +9,5 @@
   commonly used proxy toolchain for Openwrt LuCI Application.
 - [xiaorouji/openwrt-passwall2](https://github.com/xiaorouji/openwrt-passwall2):
   A Sing-Box/Xray core for Openwrt LuCI Application.
+- [vernesong/OpenClash](https://github.com/vernesong/OpenClash): A Clash Client For OpenWrt
+

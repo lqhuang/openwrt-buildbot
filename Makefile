@@ -27,12 +27,17 @@ OPENWRT_IMAGEBUILDER = openwrt-imagebuilder-${OPENWRT_VERSION_PATCH}-$(subst _,-
 # example: https://downloads.openwrt.org/releases/23.05.2/targets/x86/64/openwrt-imagebuilder-23.05.2-x86-64.Linux-x86_64.tar.xz
 OPENWRT_IMAGE_BUILD_ARTIFACT := ${OPENWRT_RELEASES}/${OPENWRT_BUILD_TARGET}/${OPENWRT_IMAGEBUILDER}.tar.xz
 OPENWRT_REPO := https://github.com/openwrt/openwrt.git
+
 # directory for build root
 BUILDROOT := openwrt
+# directory for docker builder
+DOCKER_BUILDER := openwrt-docker-builder
 # directory to put customized files
 CUSTOM := custom
+CUSTOM_PACKAGES_CONFIG := 9999.custom.config
 # directory to store final artifacts
 ARTIFACTS := artifacts
+
 
 ## For env debug
 
@@ -75,20 +80,30 @@ setup-openwrt-src:
 pull-buildroot:
 	pushd ${BUILDROOT}; git pull; popd
 
-CUSTOM_PACKAGES_CONFIG := 10.custom.config
-
 reformat-packages:
 	@echo "Reformat packages..."
+	rm -f ${CUSTOM}/config/${CUSTOM_PACKAGES_CONFIG}
 	python3 write-packages.py ./packages/* > ${CUSTOM}/config/${CUSTOM_PACKAGES_CONFIG}
 	@echo "Done"
 
 bump-config: reformat-packages
-	rm -f ${CUSTOM}/.config ${CUSTOM}/.config.old ${BUILDROOT}/.config ${BUILDROOT}/.config.old
+	rm -f ${CUSTOM}/.config ${CUSTOM}/.config.old
+	rm -f ${BUILDROOT}/.config ${BUILDROOT}/.config.old
 	cat ${CUSTOM}/config/0.base.config \
 		${CUSTOM}/config/1.kernel.config \
 		${CUSTOM}/config/2.image.config \
+		${CUSTOM}/config/3.tls.config \
 		${CUSTOM}/config/${CUSTOM_PACKAGES_CONFIG} \
 		> ${BUILDROOT}/.config
+
+bump-config-docker: reformat-packages
+	rm -f ${CUSTOM}/.config ${CUSTOM}/.config.old
+	cat ${CUSTOM}/config/0.base.config \
+		${CUSTOM}/config/1.kernel.config \
+		${CUSTOM}/config/2.image.config \
+		${CUSTOM}/config/3.tls.config \
+		${CUSTOM}/config/${CUSTOM_PACKAGES_CONFIG} \
+		> ${DOCKER_BUILDER}/.generated.config
 
 provision: bump-config
 	pushd ${BUILDROOT}; git restore feeds.conf.default; popd
@@ -122,7 +137,7 @@ prepare: provision feeds configure
 
 pre-build:
 	make -C ${BUILDROOT} download -j${NPROC}
-	make -C ${BUILDROOT} clean world -j${NPROC} CFLAGS=-std=c11
+	# make -C ${BUILDROOT} clean world -j${NPROC}
 
 build: pre-build
 	make -C ${BUILDROOT} -j${NPROC}

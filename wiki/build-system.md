@@ -19,6 +19,25 @@ apt install build-essential clang g++ gcc-multilib g++-multilib \
     flex bison gawk git gettext xsltproc rsync curl wget unzip python3
 ```
 
+## Target
+
+- Target System (x86)
+- Subtarget (x86_64)
+- Target Profile (Generic)
+
+## Configure options
+
+For most packages and features, you have three options: y, m, n which are
+represented as follows:
+
+- pressing `y` sets the `<*>` built-in label. This package will be compiled and
+  included in the firmware image file.
+- pressing `m` sets the `<M>` package label. This package will be compiled, but
+  not included in the firmware image file, e.g. to be installed with opkg after
+  flashing the firmware image file to the device.
+- pressing `n` sets the `< >` excluded label. The source code will not be
+  processed.
+
 ## Setp by step
 
 ### Get source code
