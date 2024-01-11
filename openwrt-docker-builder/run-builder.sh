@@ -10,11 +10,12 @@ NPROC=$(nproc)
 
 make defconfig
 
-cp -f .config artifacts/config.buildinfo
+BIN_DIR="bin/targets/x86/64"
+mkdir -p ${BIN_DIR}
+cp -f .config ${BIN_DIR}/config.buildinfo
 
 make download -j${NPROC}
-# make clean world -j${NPROC}
+make clean world -j${NPROC}
 
 make -j${NPROC}
-
 make checksum

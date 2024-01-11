@@ -91,8 +91,11 @@ bump-config: reformat-packages
 	rm -f ${BUILDROOT}/.config ${BUILDROOT}/.config.old
 	cat ${CUSTOM}/config/0.base.config \
 		${CUSTOM}/config/1.kernel.config \
-		${CUSTOM}/config/2.image.config \
-		${CUSTOM}/config/3.tls.config \
+		${CUSTOM}/config/2.build.config \
+		${CUSTOM}/config/2.toolchain.config \
+		${CUSTOM}/config/3.image.config \
+		${CUSTOM}/config/3.init.config \
+		${CUSTOM}/config/4.tls.config \
 		${CUSTOM}/config/${CUSTOM_PACKAGES_CONFIG} \
 		> ${BUILDROOT}/.config
 
@@ -100,8 +103,11 @@ bump-config-docker: reformat-packages
 	rm -f ${CUSTOM}/.config ${CUSTOM}/.config.old
 	cat ${CUSTOM}/config/0.base.config \
 		${CUSTOM}/config/1.kernel.config \
-		${CUSTOM}/config/2.image.config \
-		${CUSTOM}/config/3.tls.config \
+		${CUSTOM}/config/2.build.config \
+		${CUSTOM}/config/2.toolchain.config \
+		${CUSTOM}/config/3.image.config \
+		${CUSTOM}/config/3.init.config \
+		${CUSTOM}/config/4.tls.config \
 		${CUSTOM}/config/${CUSTOM_PACKAGES_CONFIG} \
 		> ${DOCKER_BUILDER}/.generated.config
 

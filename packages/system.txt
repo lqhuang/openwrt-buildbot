@@ -6,17 +6,21 @@ xfs-fsck
 xfs-growfs
 xfs-mkfs
 
-ca-bundle
-ca-certificates
+# kernel
+libbpf
+libelf
+libpcap
+libxdp
+qosify
+xdp-filter
+xdp-loader
+xdpdump
+zlib
+
 openwrt-keyring
-
 ntpd
-
 dnsmasq-full
 generate-ipv6-address
-
--firewall
-firewall4
 
 ## Network
 snmp-utils
@@ -95,7 +99,7 @@ avahi-dnsconfd
 sudo
 
 ## Optional improve
-openssl-util
+#openssl-util
 bpftool-full
 ddns-scripts-cloudflare
 wireguard-tools
