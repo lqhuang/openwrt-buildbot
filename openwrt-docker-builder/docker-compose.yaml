@@ -18,7 +18,12 @@ services:
       - ./feeds.conf.default:/builder/feeds.conf.default
       - ./.generated.config:/builder/.generated.config
 
+      # custom scripts
+      - ./run-builder.sh:/builder/run-builder.sh
+      - ./setup-prebuilt.sh:/builder/setup-prebuilt.sh
+
       # cache
-      - ./.cache/feeds:/builder/feeds
+      # - ./.cache/feeds:/builder/feeds
       - ./.cache/dl:/builder/dl
+      - ./.cache/.ccache:/builder/.ccache
     stdin_open: true # keep running without shutting down
