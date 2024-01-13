@@ -15,7 +15,7 @@ kmod-crypto-hmac
 kmod-crypto-sha256
 kmod-crypto-sha512
 #kmod-crypto-user
-#kmod-cryptodev
+kmod-cryptodev
 
 # Filesystems
 kmod-fs-exfat
@@ -69,6 +69,3 @@ kmod-usb-net
 kmod-usb-hid
 kmod-usb-xhci-hcd
 kmod-usb3
-
-## disabled
--kmod-can

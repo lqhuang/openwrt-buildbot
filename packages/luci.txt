@@ -65,7 +65,7 @@ collectd-mod-uptime
 collectd-mod-vmem
 
 ### for third luci-app
-luci-app-passwall2 # src https://github.com/xiaorouji/openwrt-passwall2
+#luci-app-passwall2 # src https://github.com/xiaorouji/openwrt-passwall2
 #luci-app-gost
 #luci-app-openclash
 #luci-app-mosdns

@@ -17,34 +17,34 @@ xdp-loader
 xdpdump
 zlib
 
+attendedsysupgrade-common
+auc
+bridge
+
+nft-qos
+qos-scripts
+swconfig
+
 openwrt-keyring
-ntpd
 dnsmasq-full
+ntpd
 generate-ipv6-address
+ca-certificates
+
+## DNS
+dnsmasq-full
+### CONFIG OPTIONS for dnsmasq-full
+dnsmasq_full_dhcp
+dnsmasq_full_dhcpv6
+dnsmasq_full_dnssec
+dnsmasq_full_auth
+dnsmasq_full_nftset
 
 ## Network
 snmp-utils
 snmpd
-
-bash
-zsh
-
+ipmitool
 ip-full
-less
-which
-tree
-lsof
-
-wget
-curl
-rsync
-htop
-tcpdump
-iperf3
-bind-dig
-dnstop
-
-arp-scan
 
 # Utilities
 
@@ -73,9 +73,6 @@ zoneinfo-america
 zoneinfo-asia
 zoneinfo-europe
 
-## coreutils bundles (have busybox yet?)
-#coreutils
-
 ## Misc
 grep
 irqbalance
@@ -85,6 +82,18 @@ rng-tools
 tar
 tree
 which
+
+bash
+zsh
+wget
+curl
+rsync
+htop
+tcpdump
+iperf3
+bind-dig
+dnstop
+arp-scan
 
 # end of Utilities
 
@@ -99,7 +108,6 @@ avahi-dnsconfd
 sudo
 
 ## Optional improve
-#openssl-util
 bpftool-full
 ddns-scripts-cloudflare
 wireguard-tools
@@ -111,7 +119,11 @@ adguardhome
 #zabbix-sender
 
 ## Web Servers/Proxies
-cloudflared
+
 haproxy
 sing-box
 -xray-core
+
+# https://github.com/openwrt/packages/issues/22383
+# ../../vendor/github.com/quic-go/quic-go/internal/qtls/go121.go:5:13: cannot use "The version of quic-go you're using can't be built on Go 1.21 yet. For more details, please see https://github.com/quic-go/quic-go/wiki/quic-go-and-Go-versions." (untyped string constant "The version of quic-go you're using can't be built on Go 1.21 yet. F...) as int value in variable declaration
+-cloudflared
