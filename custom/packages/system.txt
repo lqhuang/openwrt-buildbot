@@ -119,10 +119,11 @@ adguardhome
 #zabbix-sender
 
 ## Web Servers/Proxies
-
 haproxy
+tcping
+shadowsocks-rust
+naiveproxy
 sing-box
--xray-core
 
 # https://github.com/openwrt/packages/issues/22383
 # ../../vendor/github.com/quic-go/quic-go/internal/qtls/go121.go:5:13: cannot use "The version of quic-go you're using can't be built on Go 1.21 yet. For more details, please see https://github.com/quic-go/quic-go/wiki/quic-go-and-Go-versions." (untyped string constant "The version of quic-go you're using can't be built on Go 1.21 yet. F...) as int value in variable declaration

@@ -65,8 +65,32 @@ collectd-mod-uptime
 collectd-mod-vmem
 
 ### for third luci-app
-#luci-app-passwall2 # src https://github.com/xiaorouji/openwrt-passwall2
 #luci-app-gost
 #luci-app-openclash
 #luci-app-mosdns
 #luci-app-smartdns
+
+
+#
+# Configuration luci-app-passwall2
+#
+-luci-app-passwall2
+
+-luci-app-passwall2_Iptables_Transparent_Proxy
+luci-app-passwall2_Nftables_Transparent_Proxy
+
+luci-app-passwall2_INCLUDE_Haproxy
+luci-app-passwall2_INCLUDE_NaiveProxy
+luci-app-passwall2_INCLUDE_Shadowsocks_Rust_Client
+luci-app-passwall2_INCLUDE_Shadowsocks_Rust_Server
+luci-app-passwall2_INCLUDE_SingBox
+
+-luci-app-passwall2_INCLUDE_Simple_Obfs
+-luci-app-passwall2_INCLUDE_V2ray_Plugin
+
+-simple-obfs
+-v2ray-geodata
+-v2ray-core
+-v2ray-plugin
+-xray-core
+-xray-plugin
