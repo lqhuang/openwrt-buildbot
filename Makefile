@@ -83,33 +83,17 @@ pull-buildroot:
 reformat-packages:
 	@echo "Reformat packages..."
 	rm -f ${CUSTOM}/config/${CUSTOM_PACKAGES_CONFIG}
-	python3 write-packages.py ./packages/* > ${CUSTOM}/config/${CUSTOM_PACKAGES_CONFIG}
+	python3 write-packages.py ${CUSTOM}/packages/* > ${CUSTOM}/config/${CUSTOM_PACKAGES_CONFIG}
 	@echo "Done"
 
 bump-config: reformat-packages
 	rm -f ${CUSTOM}/.config ${CUSTOM}/.config.old
 	rm -f ${BUILDROOT}/.config ${BUILDROOT}/.config.old
-	cat ${CUSTOM}/config/0.base.config \
-		${CUSTOM}/config/1.kernel.config \
-		${CUSTOM}/config/2.build.config \
-		${CUSTOM}/config/2.toolchain.config \
-		${CUSTOM}/config/3.image.config \
-		${CUSTOM}/config/3.init.config \
-		${CUSTOM}/config/4.tls.config \
-		${CUSTOM}/config/${CUSTOM_PACKAGES_CONFIG} \
-		> ${BUILDROOT}/.config
+	cat ${CUSTOM}/config/*.config > ${BUILDROOT}/.config
 
 bump-config-docker: reformat-packages
 	rm -f ${CUSTOM}/.config ${CUSTOM}/.config.old
-	cat ${CUSTOM}/config/0.base.config \
-		${CUSTOM}/config/1.kernel.config \
-		${CUSTOM}/config/2.build.config \
-		${CUSTOM}/config/2.toolchain.config \
-		${CUSTOM}/config/3.image.config \
-		${CUSTOM}/config/3.init.config \
-		${CUSTOM}/config/4.tls.config \
-		${CUSTOM}/config/${CUSTOM_PACKAGES_CONFIG} \
-		> ${DOCKER_BUILDER}/.generated.config
+	cat ${CUSTOM}/config/*.config > ${DOCKER_BUILDER}/.generated.config
 
 provision: bump-config
 	pushd ${BUILDROOT}; git restore feeds.conf.default; popd
