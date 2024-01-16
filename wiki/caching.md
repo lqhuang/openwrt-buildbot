@@ -1,5 +1,4 @@
-
-
+# Using cache to speed up building
 
 - `${BUILDROOT}/dl`: Downloaded source tarballs
 - `${BUILDROOT}/staging_dir`: Intermediate build files

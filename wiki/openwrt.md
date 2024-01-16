@@ -22,6 +22,49 @@
 - IPK.zip: 压缩文件是随固件一起提供的 ipk, 包括未集成到固件里的一些例如
   dockerman, 仅适用于同目录下的固件, 其他人编译的固件不保证可用!
 
+- `ext4-combined-efi.img.gz`: This disk image uses a single read-write ext4
+  partition without a read-only squashfs root filesystem. As a result, the root
+  partition can be expanded to fill a large drive (e.g. SSD/SATA/mSATA/SATA
+  DOM/NVMe/etc). Features like Failsafe Mode or Factory Reset will not be
+  available as they need a read-only squashfs partition in order to function. It
+  has both the boot and root partitions and Master Boot Record (MBR) area with
+  updated GRUB2.
+- `ext4-combined.img.gz`: This disk image is the same as above but it is
+  intended to be booted with PC BIOS instead of EFI.
+- `ext4-rootfs.img.gz`: This is a partition image of only the root partition. It
+  can be used to install OpenWRT without overwriting the boot partition and
+  Master Boot Record (MBR).
+- `kernel.bin`
+- `squashfs-combined-efi.img.gz`: This disk image uses the traditional OpenWrt
+  layout, a squashfs read-only root filesystem and a read-write partition where
+  settings and packages you install are stored. Due to how this image is
+  assembled, you will have less than 100MB of space to store additional packages
+  and configuration, and extroot does not work. It supports booting from EFI.
+- `squashfs-combined.img.gz`: This disk image is the same as above but it is
+  intended to be booted with PC BIOS instead of EFI.
+- `squashfs-rootfs.img.gz`:
+- `rootfs.tar.gz`: This contains all the files from the root partition. It can
+  be extracted onto a root filesystem without the need of overwriting the
+  partition. To avoid conflicts, it is highly recommended you backup any older
+  files and extract this file onto an empty filesystem.
+
+## Install OpenWrt
+
+Boot with a Linxu live CD/USB, then
+
+```sh
+# Unpack image
+gunzip openwrt-*.img.gz
+
+# Identify disk (to replace sdX in the following command below)
+lsblk
+
+# Write image
+dd if=openwrt-21.02.0-x86-64-generic-ext4-combined.img bs=1M of=/dev/sdX
+```
+
+- [OpenWRT Docs: OpenWrt on x86 hardware (PC / VM / server)](https://openwrt.org/docs/guide-user/installation/openwrt_x86)
+
 ## Protecting web interface
 
 Rebind to LAN only
