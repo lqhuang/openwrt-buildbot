@@ -20,6 +20,9 @@ mkdir -p ${ARTIFACTS_DIR}
 cp -f .config ${ARTIFACTS_DIR}/config.buildinfo
 
 make download -j${NPROC}
-make clean
+
+#make clean
 make -j${NPROC}
+
+make json_overview_image_info
 make checksum
