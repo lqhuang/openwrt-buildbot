@@ -3,11 +3,12 @@ export GID=$(shell id -g)
 
 # defined at https://github.com/openwrt/docker/blob/main/Dockerfile#L45
 WORKDIR := /builder
+WORKDIR := /root/imagebuilder
 USER	:= buildbot
 
 # --------
 
-default: down up setup-prebuilt run-build cp-out
+default: pull down up setup-prebuilt run-build cp-out
 
 # --------
 
@@ -22,6 +23,9 @@ logs:
 
 ps:
 	docker compose ps
+
+pull:
+	docker compose pull
 
 # --------
 
@@ -45,6 +49,12 @@ setup-prebuilt:
 
 cp-config-in:
 	docker compose cp .generated.config builder:${WORKDIR}/.config
+
+cp-feeds-in:
+	docker compose cp feeds.conf.default builder:${WORKDIR}/feeds.conf.default
+
+cp-files-in:
+	docker compose cp ../custom/files builder:${WORKDIR}/files
 
 cp-scripts-in:
 	docker compose cp run-builder.sh builder:${WORKDIR}/run-builder.sh

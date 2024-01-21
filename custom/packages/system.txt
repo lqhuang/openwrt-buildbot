@@ -98,11 +98,12 @@ arp-scan
 # end of Utilities
 
 ## for mdns
-avahi-nodbus-daemon
-avahi-daemon-service-http
-avahi-dnsconfd
-# NOTE: too heavy, requiring dbus
-#avahi-utils
+umdns
+#avahi-nodbus-daemon
+#avahi-daemon-service-http
+#avahi-dnsconfd
+## NOTE: too heavy, requiring dbus
+##avahi-utils
 
 ## for sudo
 sudo
