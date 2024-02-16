@@ -1,6 +1,11 @@
 services:
   builder:
-    image: openwrt/sdk:x86_64-main
+    # image: openwrt/sdk:x86_64-main
+    # image: ghcr.io/openwrt/imagebuilder:x86-64-23.05-SNAPSHOT
+    image: ubuntu:22.04
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
     container_name: openwrt-docker-builder
     hostname: openwrt-docker-builder
     restart: always
