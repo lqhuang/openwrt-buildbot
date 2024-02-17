@@ -16,6 +16,8 @@ xdp-filter
 xdp-loader
 xdpdump
 zlib
+#libpam
+#libnetsnmp
 
 attendedsysupgrade-common
 auc

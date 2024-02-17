@@ -2,11 +2,16 @@
 
 set -euo pipefail
 
-PRE_INSTALL="wget curl ca-certificates xz-utils less git"
-BUILD_PRE_INSTALL="build-essential clang  make"
-MUSL_LIBC="argp-standalone musl-fts-dev musl-obstack-dev musl-libintl"
-MOLD="libncurses-dev libssl-dev rsync gawk unzip bzip2 python3 python3-distutils file libpam-dev"
-# "liblzma-dev libsnmp-dev"
+PRE_INSTALL="ca-certificates wget curl xz-utils bzip2 unzip less rsync git file gawk"
+BUILD_TOOL_DEPS="build-essential clang make mold python3 python3-distutils"
+BUILD_DEV_DEPS="libncurses-dev" # libelf-dev zlib1g-dev libssl-dev liblzma-dev libpam-dev
+ALL_DEPS="${PRE_INSTALL} ${BUILD_TOOL_DEPS} ${BUILD_DEV_DEPS}"
+
+# Checking 'ncurses.h'... ok.
+# Checking 'argp.h'... ok.
+# Checking 'fts.h'... ok.
+# Checking 'obstack.h'... ok.
+# Checking 'libintl.h'... ok.
 
 FILE_PATTERN="Linux-x86_64.tar.xz"
 BPF_TOOLCHAIN_DOWNLOAD_FILE="llvm-bpf-15.0.7.${FILE_PATTERN}"

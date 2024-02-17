@@ -28,7 +28,6 @@ services:
       - ./setup-prebuilt.sh:/builder/setup-prebuilt.sh
 
       # cache
-      # - ./.cache/feeds:/builder/feeds
-      - ./.cache/dl:/builder/dl
-      - ./.cache/.ccache:/builder/.ccache
+      - ../.cache/dl:/builder/dl
+      - ../.cache/.ccache:/builder/.ccache
     stdin_open: true # keep running without shutting down

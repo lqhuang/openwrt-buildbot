@@ -1,12 +1,15 @@
 # Block devices
 kmod-nvme
-kmod-scsi-core
+#kmod-scsi-core
+#kmod-ata-ahci
+#kmod-ata-core
 
 # Cryptographic API modules
 kmod-crypto-aead
 kmod-crypto-aes
 kmod-crypto-chacha20poly1305
 kmod-crypto-core
+kmod-crypto-deflate
 kmod-crypto-des
 kmod-crypto-ecdh
 kmod-crypto-gcm
@@ -41,13 +44,15 @@ kmod-nf-socket
 
 kmod-nft-arp
 kmod-nft-bridge
-kmod-nft-dup-inet
+#kmod-nft-dup-inet
 kmod-nft-nat
 kmod-nft-netdev
 kmod-nft-offload
 kmod-nft-tproxy
 
 # Network Support
+kmod-arptables
+kmod-br-netfilter
 kmod-bonding
 kmod-ppp
 kmod-mppe
@@ -55,8 +60,9 @@ kmod-mppe
 kmod-tcp-bbr
 kmod-tcp-hybla
 kmod-tls
+kmod-trelay
 kmod-tun
-kmod-inet-diag
+#kmod-inet-diag
 kmod-veth
 kmod-vxlan
 kmod-wireguard
@@ -65,7 +71,7 @@ kmod-wireguard
 kmod-dma-buf
 
 # USB Support
+kmod-usb-storage
 kmod-usb-net
-kmod-usb-hid
 kmod-usb-xhci-hcd
 kmod-usb3

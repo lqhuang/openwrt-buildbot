@@ -17,16 +17,37 @@ else
 endif
 
 ## Envs for OpenWrt
-OPENWRT_VERSION ?= 23.05
-OPENWRT_VERSION_PATCH ?= 23.05.2
-OPENWRT_DOWNLOADS := https://downloads.openwrt.org
-OPENWRT_RELEASES := ${OPENWRT_DOWNLOADS}/releases/${OPENWRT_VERSION_PATCH}/targets
-OPENWRT_BUILD_TARGET := x86/64
-OPENWRT_BUILD_TARGET_ARCH := x86_64
-OPENWRT_IMAGEBUILDER = openwrt-imagebuilder-${OPENWRT_VERSION_PATCH}-$(subst _,-,${OPENWRT_BUILD_TARGET_ARCH}).Linux-${OPENWRT_BUILD_TARGET_ARCH}
-# example: https://downloads.openwrt.org/releases/23.05.2/targets/x86/64/openwrt-imagebuilder-23.05.2-x86-64.Linux-x86_64.tar.xz
-OPENWRT_IMAGE_BUILD_ARTIFACT := ${OPENWRT_RELEASES}/${OPENWRT_BUILD_TARGET}/${OPENWRT_IMAGEBUILDER}.tar.xz
 OPENWRT_REPO := https://github.com/openwrt/openwrt.git
+OPENWRT_VERSION ?= snapshots
+ifeq (${OPENWRT_VERSION}, snapshots)
+	OPENWRT_URL_VERSION := snapshots
+	ARTIFACT_PREFIX     :=
+else
+	OPENWRT_URL_VERSION := releases/${OPENWRT_VERSION}
+	ARTIFACT_PREFIX     := -${OPENWRT_VERSION}
+endif
+OPENWRT_TARGET      := x86/64
+OPENWRT_TARGET_NAME := x86_64
+OPENWRT_TARGET_VAR  := $(subst /,-,${OPENWRT_TARGET})
+GCC_VERSION         := 12.3.0
+LLVM_VERSION        := 15.0.7
+
+# url for artifacts
+OPENWRT_URL_DOWNLOADS := https://downloads.openwrt.org
+OPENWRT_URL_RELEASE := ${OPENWRT_URL_DOWNLOADS}/${OPENWRT_URL_VERSION}/targets
+
+# example:
+#   1. https://downloads.openwrt.org/snapshots/targets/x86/64/openwrt-toolchain-x86-64_gcc-12.3.0_musl.Linux-x86_64.tar.xz
+#   2. https://downloads.openwrt.org/releases/23.05.2/targets/x86/64/openwrt-toolchain-23.05.2-x86-64_gcc-12.3.0_musl.Linux-x86_64.tar.xz
+FILE_PATTERN          := Linux-${OPENWRT_TARGET_ARCH}.tar.xz
+OPENWRT_SDK           := openwrt-sdk${ARTIFACT_PREFIX}-${OPENWRT_TARGET_VAR}_gcc-${GCC_VERSION}_musl.${FILE_PATTERN}
+OPENWRT_LLVM_BPF      := llvm-bpf-${LLVM_VERSION}.${FILE_PATTERN}
+OPENWRT_TOOLCHAIN     := openwrt-toolchain${ARTIFACT_PREFIX}-${OPENWRT_TARGET_VAR}_gcc-${GCC_VERSION}_musl.${FILE_PATTERN}
+OPENWRT_IMAGEBUILDER  := openwrt-imagebuilder${ARTIFACT_PREFIX}-${OPENWRT_TARGET_VAR}.${FILE_PATTERN}
+ARTIFACT_SDK          := ${OPENWRT_URL_RELEASE}/${OPENWRT_TARGET}/${OPENWRT_SDK}
+ARTIFACT_LLVM_BPF     := ${OPENWRT_URL_RELEASE}/${OPENWRT_TARGET}/${OPENWRT_LLVM_BPF}
+ARTIFACT_TOOLCHAIN    := ${OPENWRT_URL_RELEASE}/${OPENWRT_TARGET}/${OPENWRT_TOOLCHAIN}
+ARTIFACT_IMAGEBUILDER := ${OPENWRT_URL_RELEASE}/${OPENWRT_TARGET}/${OPENWRT_IMAGEBUILDER}
 
 # directory for build root
 BUILDROOT := openwrt
@@ -35,50 +56,95 @@ DOCKER_BUILDER := openwrt-docker-builder
 # directory to put customized files
 CUSTOM := custom
 CUSTOM_PACKAGES_CONFIG := 9999.custom.config
-# directory to store final artifacts
-ARTIFACTS := artifacts
 
+# directory to store final artifacts
+BUILD_ARTIFACTS := artifacts
+CACHE_DIR := .cache
+CACHE_DL  := ${CACHE_DIR}/dl
+CACHE_CCACHE := ${CACHE_DIR}/.ccache
+CACHE_PREBUILT := ${CACHE_DIR}/prebuilt
 
 ## For env debug
+show-openwrt-envs:
+	echo ${OPENWRT_VERSION}
+	echo ${OPENWRT_URL_RELEASE}
+	echo ${OPENWRT_TARGET}
+	echo ${ARTIFACT_SDK}
+	echo ${ARTIFACT_LLVM_BPF}
+	echo ${ARTIFACT_TOOLCHAIN}
+	echo ${ARTIFACT_IMAGEBUILDER}
 
 show-nproc:
 	echo ${NPROC}
 
-show-cflags:
-	echo ${CFLAGS}
-
 ## Setup stage
-.PHONY: README.md
-
 pre-setup:
-	[ $(docker images -q) -ne '' ] && docker rmi `docker images -q`
-	sudo -E rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d /usr/local/lib/android
-	sudo -E apt-mark hold grub-efi-amd64-signed
-	sudo -E apt update -qq
-	# sudo -E apt purge -y -qq azure-cli* docker* ghc* zulu* llvm* firefox google* dotnet* powershell* openjdk* mysql* php* mongodb* dotnet* snap*
+	sudo -E apt update -y -qq
 	sudo -E apt full-upgrade -y -qq
 	sudo -E apt install -y --no-install-recommends --no-install-suggests \
-		build-essential clang g++ gcc-multilib g++-multilib \
-		libncurses-dev libssl-dev zlib1g-dev \
-		flex bison gawk git gettext xsltproc rsync curl wget unzip python3
+		ca-certificates \
+		wget curl xz-utils bzip2 unzip less rsync git file gawk \
+		build-essential clang gcc g++ gcc-multilib g++-multilib \
+		make mold python3 python3-distutils \
+		libncurses-dev
 	sudo -E systemctl daemon-reload
 	sudo -E apt autoremove -y -qq --purge
 	sudo -E apt clean -qq
 
 setup-image-builder:
-	curl -L ${OPENWRT_IMAGE_BUILD_ARTIFACT} | tar -xJf - -C ./
+	mkdir -p ./openwrt-imagebuilder
+	rm -rf ./openwrt-imagebuilder/*
+	curl -L ${ARTIFACT_IMAGEBUILDER} | tar --strip-component=1 -C ./openwrt-imagebuilder -xJf -
+
+setup-sdk:
+	mkdir -p ./openwrt-sdk
+	rm -rf ./openwrt-sdk/*
+	curl -L ${ARTIFACT_SDK} | tar --strip-component=1 -C ./openwrt-sdk -xJf -
+
+setup-toolchain:
+	# rm -rf ${CACHE_PREBUILT}/${OPENWRT_TOOLCHAIN}
+	curl --output-dir ${CACHE_PREBUILT} -OL ${ARTIFACT_TOOLCHAIN}
+
+setup-llvm-bpf:
+	# rm -rf ${CACHE_PREBUILT}/${OPENWRT_LLVM_BPF}
+	curl --output-dir ${CACHE_PREBUILT} -OL ${ARTIFACT_LLVM_BPF}
 
 setup-openwrt-branch:
 	git clone --depth 1 --single-branch --branch openwrt-${OPENWRT_VERSION} ${OPENWRT_REPO} ./${BUILDROOT}
 
 setup-openwrt-tag:
-	git clone --depth 1 --single-branch --branch v${OPENWRT_VERSION_PATCH} ${OPENWRT_REPO} ./${BUILDROOT}
+	git clone --depth 1 --single-branch --branch v${OPENWRT_VERSION} ${OPENWRT_REPO} ./${BUILDROOT}
 
 setup-openwrt-src:
 	git clone --depth 1 --single-branch ${OPENWRT_REPO} ./${BUILDROOT}
 
 pull-buildroot:
 	pushd ${BUILDROOT}; git pull; popd
+
+setup-cache:
+	ln -s ${CACHE_DL} ${BUILDROOT}/dl
+	ln -s ${CACHE_CCACHE} ${BUILDROOT}/.ccache
+
+install-prebuilt-sdk: #setup-sdk
+	mkdir -p ${BUILDROOT}/staging_dir
+	rsync -avP ./openwrt-sdk/staging_dir/host ${BUILDROOT}/staging_dir/
+	pushd ${BUILDROOT}; ./scripts/ext-tools.sh --refresh; popd
+
+# install-prebuilt:
+# 	pushd ${BUILDROOT}
+# 	mkdir -p ./build_dir/host
+# 	mkdir -p ./staging_dir/host/stamp
+# 	./scripts/ext-tools.sh \
+# 		--host-build-dir ./build_dir/host \
+# 		--host-staging-dir-stamp ./staging_dir/host/stamp \
+# 		--tools ../${CACHE_PREBUILT}/${OPENWRT_TOOLCHAIN}
+# 	./scripts/ext-tools.sh \
+# 		--host-build-dir ./build_dir/host \
+# 		--host-staging-dir-stamp ./staging_dir/host/stamp \
+# 		--tools ../${CACHE_PREBUILT}/${OPENWRT_LLVM_BPF}
+# 	popd
+
+#########
 
 reformat-packages:
 	@echo "Reformat packages..."
@@ -117,13 +183,13 @@ install-feeds:
 
 feeds: update-feeds update-feeds
 
-configure:
+configure: provision
 	@echo "Configuring ..."
 	make -C ${BUILDROOT} defconfig
 	# make  -C ${BUILDROOT} kernel_menuconfig # CONFIG_TARGET=subtarget
-	cp -f ${BUILDROOT}/.config ${ARTIFACTS}/config.buildinfo
+	cp -f ${BUILDROOT}/.config ${BUILD_ARTIFACTS}/config.buildinfo
 
-prepare: provision feeds configure
+prepare: feeds configure
 
 pre-build:
 	make -C ${BUILDROOT} download -j${NPROC}
@@ -150,4 +216,4 @@ rsync:
 
 rsync-back:
 	rsync -azhP --delete \
-		 build-server:~/app/openwrt-buildbot/${BUILDROOT}/.config ./${ARTIFACTS}/
+		 build-server:~/app/openwrt-buildbot/${BUILDROOT}/.config ./${BUILD_ARTIFACTS}/
