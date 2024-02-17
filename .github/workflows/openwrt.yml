@@ -7,8 +7,7 @@ on:
 env:
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: .config
-  TZ: Asia/Shanghai
-  OPENWRT_SRC_PATH: openwrt
+  TZ: UTC
 
 jobs:
   build:
@@ -17,23 +16,27 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        version: ["23.05"]
-        target: ["x86_64"]
+        version:
+          - "snapshot"
+          # - "23.05.2"
+        target:
+          - "x86/64"
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
       - name: Space cleanup and initialization environment
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          make pre-setup
+          make install prerequisites
           sudo -E timedatectl set-timezone "$TZ"
 
-      - name: Obtaining the Image Builder
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Obtain OpenWRT sources and prebuilt toolchain
         run: |
-          make setup-image-builder OPENWRT_VERSION=${{ matrix.version }}
+          make setup-openwrt-src OPENWRT_VERSION=${{ matrix.version }}
+          make install-prebuilt-sdk
 
       - name: Get current date
         id: date
@@ -41,23 +44,20 @@ jobs:
           echo "date=$(date +'%m/%d_%Y_%H/%M')" >> $GITHUB_ENV
           echo "date2=$(date +'%Y/%m %d')" >> $GITHUB_ENV
           echo "date3=$(date +'%m.%d')" >> $GITHUB_ENV
-          echo "DOCKERTAG=${{ secrets.DOCKER_ID }}/openwrt-6p:latest" >> $GITHUB_ENV
-          VERSION="$(echo "${{github.event.action}}" | grep -Eo " [0-9.]+" | sed -e 's/ //')" || true
+          VERSION="$(echo "${{ github.event.action }}" | grep -Eo " [0-9.]+" | sed -e 's/ //')" || true
           [ "$VERSION" ] && echo "VERSION=$VERSION" >> $GITHUB_ENV || echo "VERSION=$(date +'%m.%d')" >> $GITHUB_ENV
 
+      - name: Provision custom configurations
+        run: make provision
 
-      - name: Update feeds
-        working-directory: ./openwrt
-        run: |
-          ./scripts/feeds update -a
-          ./scripts/feeds install -a
+      - name: Update and install feeds
+        run: make feeds
 
       - name: Generate configuration file
         run: make defconfig
 
       - name: Download packages
-        working-directory: ./openwrt
-        run: make download -j$(nproc)
+        run: make download
 
       - name: Cache
         uses: klever1988/cachewrtbuild@main
@@ -65,11 +65,10 @@ jobs:
           ccache: "true"
           prefix: ${{ github.workspace }}/openwrt
 
-      - name: Compile the firmware
-        working-directory: ./openwrt
+      - name: Compile the firmware and targets
         run: |
           echo -e "Use $(nproc) threads to compile ..."
-          make -j$(nproc) || make -j1 V=s
+          make build || make build-debug
           echo "======================="
           echo "Space usage:"
           echo "======================="
@@ -81,10 +80,10 @@ jobs:
 
       - name: Prepare artifacts
         run: |
-          mkdir -p ./artifact/buildinfo
-          mkdir -p ./artifact/targets
-          cp -rf $(find ./openwrt/bin/targets/ -type f -name "*.buildinfo" -o -name "*.manifest") ./artifact/buildinfo/
-          cp -rf $(find ./openwrt/bin/targets/ -type f ! -name "*.buildinfo" ! -name "*.manifest") ./artifact/targets/
+          mkdir -p ./artifacts/buildinfo
+          mkdir -p ./artifacts/targets
+          cp -rf $(find ./openwrt/bin/targets/ -type f -name "*.buildinfo" -o -name "*.manifest") ./artifacts/buildinfo/
+          cp -rf $(find ./openwrt/bin/targets/ -type f ! -name "*.buildinfo" ! -name "*.manifest") ./artifacts/targets/
 
       # - name: Organize files
       #   id: organize
@@ -109,10 +108,10 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: OpenWrt_buildinfo
-          path: ./artifact/buildinfo/
+          path: ./artifacts/buildinfo/
 
       - name: Upload firmware
         uses: actions/upload-artifact@v3
         with:
           name: OpenWrt_firmware
-          path: ./artifact/targets/
+          path: ./artifacts/targets/

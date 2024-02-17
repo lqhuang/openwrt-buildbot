@@ -5,16 +5,17 @@ SHELL := bash
 
 ## Global envs
 export DEBIAN_FRONTEND := noninteractive
-nproc = $(shell nproc)
-ifeq ($(shell expr ${nproc} == 1),1)
-	export NPROC = $(shell expr ${nproc} + 1)
-else ifeq ($(shell expr ${nproc} \<= 4),1)
-	# with less cores
-	export NPROC = $(shell expr ${nproc} + 2)
-else
-	# with powerful machine
-	export NPROC = $(shell expr ${nproc} + 4)
-endif
+# nproc = $(shell nproc)
+# ifeq ($(shell expr ${nproc} == 1),1)
+# 	export NPROC = $(shell expr ${nproc} + 1)
+# else ifeq ($(shell expr ${nproc} \<= 4),1)
+# 	# with less cores
+# 	export NPROC = $(shell expr ${nproc} + 2)
+# else
+# 	# with powerful machine
+# 	export NPROC = $(shell expr ${nproc} + 4)
+# endif
+NPROC = $(shell nproc)
 
 ## Envs for OpenWrt
 OPENWRT_REPO := https://github.com/openwrt/openwrt.git
@@ -78,16 +79,14 @@ show-nproc:
 	echo ${NPROC}
 
 ## Setup stage
-pre-setup:
+install-prerequisites:
 	sudo -E apt update -y -qq
 	sudo -E apt full-upgrade -y -qq
 	sudo -E apt install -y --no-install-recommends --no-install-suggests \
 		ca-certificates \
 		wget curl xz-utils bzip2 unzip less rsync git file gawk \
-		build-essential clang gcc g++ gcc-multilib g++-multilib \
-		make mold python3 python3-distutils \
+		build-essential make mold python3 python3-distutils \
 		libncurses-dev
-	sudo -E systemctl daemon-reload
 	sudo -E apt autoremove -y -qq --purge
 	sudo -E apt clean -qq
 
@@ -118,7 +117,7 @@ setup-openwrt-tag:
 setup-openwrt-src:
 	git clone --depth 1 --single-branch ${OPENWRT_REPO} ./${BUILDROOT}
 
-pull-buildroot:
+pull-openwrt:
 	pushd ${BUILDROOT}; git pull; popd
 
 setup-cache:
@@ -169,7 +168,7 @@ provision: bump-config
 
 ## Build stage
 
-.PHONY: update-feeds install-feeds feeds configure prepare pre-build build full-clean
+.PHONY: update-feeds install-feeds feeds defconfig configure download build full-clean
 
 update-feeds:
 	pushd ${BUILDROOT}
@@ -181,23 +180,28 @@ install-feeds:
 	./scripts/feeds install -a
 	popd
 
-feeds: update-feeds update-feeds
+feeds: update-feeds install-feeds
 
-configure: provision
-	@echo "Configuring ..."
+defconfig:
+	@echo "Check and generate .config file ..."
 	make -C ${BUILDROOT} defconfig
 	# make  -C ${BUILDROOT} kernel_menuconfig # CONFIG_TARGET=subtarget
 	cp -f ${BUILDROOT}/.config ${BUILD_ARTIFACTS}/config.buildinfo
 
-prepare: feeds configure
+configure: provision feeds defconfig
 
-pre-build:
+download:
 	make -C ${BUILDROOT} download -j${NPROC}
-	# make -C ${BUILDROOT} clean world -j${NPROC}
+	pushd ${BUILDROOT}; ./scripts/ext-tools.sh --refresh; popd
+	#make -C ${BUILDROOT} clean -j${NPROC}
+	#make -C ${BUILDROOT} world -j${NPROC}
 
-build: pre-build
+build:
 	make -C ${BUILDROOT} -j${NPROC}
 	make -C ${BUILDROOT} checksum
+
+build-debug:
+	make -C ${BUILDROOT} -j1 V=sc
 
 full-clean:
 	make -C ${BUILDROOT} config-clean
