@@ -18,7 +18,7 @@ kmod-crypto-hmac
 kmod-crypto-sha256
 kmod-crypto-sha512
 #kmod-crypto-user
-kmod-cryptodev
+#kmod-cryptodev
 
 # Filesystems
 kmod-fs-exfat
@@ -28,7 +28,7 @@ kmod-fs-squashfs
 kmod-fs-xfs
 
 # Libraries
-kmod-asn1-decoder
+#kmod-asn1-decoder
 kmod-lib-lz4
 kmod-lib-lzo
 kmod-lib-xor
@@ -37,23 +37,24 @@ kmod-lib-zlib-inflate
 kmod-lib-zstd
 
 # Netfilter Extensions
-kmod-nf-nat6
-kmod-nf-nathelper
-kmod-nf-nathelper-extra
+#kmod-nf-nat6
+#kmod-nf-nathelper
+#kmod-nf-nathelper-extra
 kmod-nf-socket
 
 kmod-nft-arp
 kmod-nft-bridge
-#kmod-nft-dup-inet
+kmod-nft-connlimit
 kmod-nft-nat
 kmod-nft-netdev
 kmod-nft-offload
+kmod-nft-queue
 kmod-nft-tproxy
 
 # Network Support
 kmod-arptables
 kmod-br-netfilter
-kmod-bonding
+#kmod-bonding
 kmod-ppp
 kmod-mppe
 
@@ -62,7 +63,7 @@ kmod-tcp-hybla
 kmod-tls
 kmod-trelay
 kmod-tun
-#kmod-inet-diag
+kmod-inet-diag
 kmod-veth
 kmod-vxlan
 kmod-wireguard

@@ -8,7 +8,7 @@ xfs-mkfs
 
 # kernel
 libbpf
-libelf
+#libelf
 libpcap
 libxdp
 qosify
@@ -19,21 +19,24 @@ zlib
 #libpam
 #libnetsnmp
 
+##
 attendedsysupgrade-common
 auc
 bridge
 
 nft-qos
 qos-scripts
-swconfig
+-swconfig
 
 openwrt-keyring
-dnsmasq-full
 ntpd
 generate-ipv6-address
 ca-certificates
 
+#coreutils
+
 ## DNS
+-dnsmasq  # will be conflict with `dnsmasq-full`
 dnsmasq-full
 ### CONFIG OPTIONS for dnsmasq-full
 dnsmasq_full_dhcp
@@ -43,9 +46,9 @@ dnsmasq_full_auth
 dnsmasq_full_nftset
 
 ## Network
-snmp-utils
-snmpd
-ipmitool
+#snmp-utils
+#snmpd
+#ipmitool
 ip-full
 
 # Utilities
@@ -124,7 +127,7 @@ adguardhome
 ## Web Servers/Proxies
 haproxy
 tcping
-shadowsocks-rust
+-shadowsocks-rust
 naiveproxy
 sing-box
 
