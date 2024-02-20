@@ -58,3 +58,4 @@ Implemented by PBR
   - Provide a simple failover method.
 - [PBR with netifd](https://openwrt.org/docs/guide-user/network/routing/pbr_netifd)
 - [netifd (Network Interface Daemon) – Technical Reference](https://openwrt.org/docs/techref/netifd)
+- [Routing example: PBR with iproute2](https://openwrt.org/docs/guide-user/network/routing/examples/pbr_iproute2)
