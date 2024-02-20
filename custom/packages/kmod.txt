@@ -36,30 +36,43 @@ kmod-lib-zlib-deflate
 kmod-lib-zlib-inflate
 kmod-lib-zstd
 
+# Multiplexer Support
+kmod-mux-core
+
 # Netfilter Extensions
-#kmod-nf-nat6
-#kmod-nf-nathelper
-#kmod-nf-nathelper-extra
-kmod-nf-socket
+kmod-arptables
+kmod-br-netfilter
+
+#-kmod-ip6tables
+#-kmod-ipt-core
+#-kmod-ipt-ipopt
+#-kmod-ipt-ipset
+
+kmod-netatop
 
 kmod-nft-arp
 kmod-nft-bridge
 kmod-nft-connlimit
+kmod-nft-dup-inet
 kmod-nft-nat
 kmod-nft-netdev
 kmod-nft-offload
 kmod-nft-queue
+kmod-nft-socket
 kmod-nft-tproxy
+kmod-nft-xfrm
 
 # Network Support
 kmod-arptables
 kmod-br-netfilter
 #kmod-bonding
+kmod-dnsresolver
 kmod-ppp
 kmod-mppe
 
 kmod-tcp-bbr
 kmod-tcp-hybla
+kmod-tcp-scalable
 kmod-tls
 kmod-trelay
 kmod-tun
@@ -67,9 +80,11 @@ kmod-inet-diag
 kmod-veth
 kmod-vxlan
 kmod-wireguard
+kmod-xdp-sockets-diag
 
 # Other modules
 kmod-dma-buf
+kmod-zram
 
 # USB Support
 kmod-usb-storage

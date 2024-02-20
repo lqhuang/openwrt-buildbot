@@ -11,7 +11,7 @@ luci-mod-status
 luci-mod-system
 
 ## 4. Themes
--luci-theme-bootstrap
+#luci-theme-bootstrap
 luci-theme-openwrt
 luci-theme-openwrt-2020
 #luci-theme-argone
@@ -19,8 +19,8 @@ luci-theme-openwrt-2020
 
 ## 5. Protocols
 luci-proto-autoip
--luci-proto-bonding
--luci-proto-openconnect
+#luci-proto-bonding
+#luci-proto-openconnect
 luci-proto-ppp
 luci-proto-vxlan
 luci-proto-ipv6
@@ -29,20 +29,23 @@ luci-proto-wireguard
 ## 3. Applications
 luci-app-acl
 luci-app-acme
-luci-app-ahcp
+#luci-app-ahcp
 luci-app-attendedsysupgrade
 luci-app-ddns
 luci-app-email
 luci-app-firewall
 luci-app-irqbalance
-luci-app-mwan3
+-luci-app-mwan3  # depended on `iptables` now (2024-02-19). WTF
 luci-app-opkg
 luci-app-pbr
+pbr
+-pbr-iptables
+luci-app-smartdns
 luci-app-udpxy
--luci-app-wol
+#luci-app-wol
 
 luci-app-nft-qos
-luci-app-sqm
+#luci-app-sqm  # depended on `iptables` now (2024-02-19). WTF
 
 luci-app-nlbwmon
 luci-app-vnstat2
@@ -63,7 +66,6 @@ collectd-mod-irq
 collectd-mod-load
 collectd-mod-ping
 collectd-mod-memory
-collectd-mod-sqm
 collectd-mod-uptime
 collectd-mod-vmem
 
@@ -71,32 +73,31 @@ collectd-mod-vmem
 #luci-app-gost
 #luci-app-openclash
 #luci-app-mosdns
-#luci-app-smartdns
 
 #
 # Configuration luci-app-passwall2
 #
-luci-app-passwall2
+#-luci-app-passwall2
 
--luci-app-passwall2_Iptables_Transparent_Proxy
-luci-app-passwall2_Nftables_Transparent_Proxy
-
-luci-app-passwall2_INCLUDE_Haproxy
-luci-app-passwall2_INCLUDE_NaiveProxy
--luci-app-passwall2_INCLUDE_Shadowsocks_Libev_Client
--luci-app-passwall2_INCLUDE_Shadowsocks_Libev_Server
--luci-app-passwall2_INCLUDE_Shadowsocks_Rust_Client
--luci-app-passwall2_INCLUDE_Shadowsocks_Rust_Server
--luci-app-passwall2_INCLUDE_ShadowsocksR_Libev_Client
--luci-app-passwall2_INCLUDE_ShadowsocksR_Libev_Server
-luci-app-passwall2_INCLUDE_SingBox
-
--luci-app-passwall2_INCLUDE_Simple_Obfs
--luci-app-passwall2_INCLUDE_V2ray_Plugin
-
--simple-obfs
--v2ray-geodata
--v2ray-core
--v2ray-plugin
--xray-core
--xray-plugin
+#-luci-app-passwall2_Iptables_Transparent_Proxy
+#luci-app-passwall2_Nftables_Transparent_Proxy
+#
+#luci-app-passwall2_INCLUDE_Haproxy
+#luci-app-passwall2_INCLUDE_NaiveProxy
+#-luci-app-passwall2_INCLUDE_Shadowsocks_Libev_Client
+#-luci-app-passwall2_INCLUDE_Shadowsocks_Libev_Server
+#-luci-app-passwall2_INCLUDE_Shadowsocks_Rust_Client
+#-luci-app-passwall2_INCLUDE_Shadowsocks_Rust_Server
+#-luci-app-passwall2_INCLUDE_ShadowsocksR_Libev_Client
+#-luci-app-passwall2_INCLUDE_ShadowsocksR_Libev_Server
+#luci-app-passwall2_INCLUDE_SingBox
+#
+#-luci-app-passwall2_INCLUDE_Simple_Obfs
+#-luci-app-passwall2_INCLUDE_V2ray_Plugin
+#
+#-simple-obfs
+#-v2ray-geodata
+#-v2ray-core
+#-v2ray-plugin
+#-xray-core
+#-xray-plugin

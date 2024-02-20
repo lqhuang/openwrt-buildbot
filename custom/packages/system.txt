@@ -19,14 +19,16 @@ zlib
 #libpam
 #libnetsnmp
 
+nft-qos
+-qos-scripts  # will add `iptables` as deps
+-sqm-scripts  # will add `iptables` as deps
+-swconfig
+-odhcpd-ipv6only
+
 ##
 attendedsysupgrade-common
 auc
 bridge
-
-nft-qos
-qos-scripts
--swconfig
 
 openwrt-keyring
 ntpd
@@ -35,7 +37,7 @@ ca-certificates
 
 #coreutils
 
-## DNS
+## DHCP and DNS
 -dnsmasq  # will be conflict with `dnsmasq-full`
 dnsmasq-full
 ### CONFIG OPTIONS for dnsmasq-full
@@ -44,6 +46,7 @@ dnsmasq_full_dhcpv6
 dnsmasq_full_dnssec
 dnsmasq_full_auth
 dnsmasq_full_nftset
+dnsmasq_full_conntrack
 
 ## Network
 #snmp-utils
@@ -70,7 +73,8 @@ nvme-cli
 parted
 
 ## Editors
-vim
+# vim
+vim-full  # Fixed "Failed to source defaults.vim"
 
 ## Time Zone info
 zoneinfo-core
@@ -134,3 +138,9 @@ sing-box
 # https://github.com/openwrt/packages/issues/22383
 # ../../vendor/github.com/quic-go/quic-go/internal/qtls/go121.go:5:13: cannot use "The version of quic-go you're using can't be built on Go 1.21 yet. For more details, please see https://github.com/quic-go/quic-go/wiki/quic-go-and-Go-versions." (untyped string constant "The version of quic-go you're using can't be built on Go 1.21 yet. F...) as int value in variable declaration
 -cloudflared
+
+##For bugfix
+
+# `service network restart` will invoke `/sbin/wifi` !???
+# if `wifi-scripts` is not installed, it raises an error
+wifi-scripts

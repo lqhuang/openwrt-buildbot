@@ -34,3 +34,33 @@ Solution
    > [Build system usage](https://openwrt.org/docs/guide-developer/toolchain/use-buildsystem)
 2. If build as root, set env by `export FORCE_UNSAFE_CONFIGURE=1` before
    `make world V=sc`
+
+## Legacy iptables rules detected
+
+No more `iptables` please
+
+```
+Legacy rules detected
+
+There are legacy iptables rules present on the system. Mixing iptables and nftables rules is discouraged and may lead to incomplete traffic filtering.
+```
+
+Part of legacy apps still cann't utilize `iptables-nft` well.
+
+After check my installed feeds, the following apps will add `iptables` as deps
+forcelly:
+
+- qos-scripts & sqm-scripts
+  - luci-app-sqm
+- mwan3
+  - luci-app-mwan3
+- pbr-iptables
+  - optional alternative: pbr (with `nftables`)
+- nodogsplash
+  - luci-app-splash
+- wifidog
+- wifidog-tls
+
+Refs:
+
+- [Warning iptables use legacy](https://forum.openwrt.org/t/warning-iptables-use-legacy/127752)

@@ -168,7 +168,7 @@ provision: bump-config
 
 ## Build stage
 
-.PHONY: update-feeds install-feeds feeds defconfig configure download build full-clean
+.PHONY: update-feeds install-feeds feeds defconfig configure reconfigure download build full-clean
 
 update-feeds:
 	pushd ${BUILDROOT}
@@ -189,6 +189,7 @@ defconfig:
 	cp -f ${BUILDROOT}/.config ${BUILD_ARTIFACTS}/config.buildinfo
 
 configure: provision feeds defconfig
+reconfigure: provision defconfig
 
 download:
 	make -C ${BUILDROOT} download -j${NPROC}
