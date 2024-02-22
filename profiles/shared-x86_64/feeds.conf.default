@@ -5,5 +5,6 @@
 #src-git helloworld https://github.com/fw876/helloworld.git
 #src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2.git
 #src-git immortalwrt https://github.com/immortalwrt/packages.git
-src-git luci_theme_argon https://github.com/jerrykuku/luci-theme-argon.git
-src-git luci_app_argon_config https://github.com/jerrykuku/luci-app-argon-config.git
+
+# For luci-theme-argon and luci-app-argon-config
+#src-git jerryk https://github.com/jerrykuku/openwrt-package

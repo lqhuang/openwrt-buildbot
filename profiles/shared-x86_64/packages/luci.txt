@@ -12,7 +12,8 @@ luci-mod-system
 
 ## 4. Themes
 luci-theme-bootstrap  # current default (as of Feb, 2024)
-luci-theme-argon
+luci-theme-material
+#luci-theme-argon
 
 ## 5. Protocols
 luci-proto-autoip
@@ -27,7 +28,7 @@ luci-proto-wireguard
 luci-app-acl
 luci-app-acme
 #luci-app-ahcp
-luci-app-argon-config
+#luci-app-argon-config
 luci-app-attendedsysupgrade
 luci-app-ddns
 luci-app-email

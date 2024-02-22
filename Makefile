@@ -58,7 +58,7 @@ DOCKER_BUILDER := openwrt-docker-builder
 # directory to put customized files
 # Define which profile (under `profiles/` dir) to build
 DIR_PROFILES := ./profiles
-PROFILE      := x86_64-default
+PROFILE      := x86_64-mwan
 PROFILE_PATH = ${DIR_PROFILES}/${PROFILE}
 CUSTOM_PACKAGES_CONFIG := 9999.custom.config
 
