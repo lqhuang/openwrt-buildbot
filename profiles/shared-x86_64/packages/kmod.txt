@@ -25,6 +25,7 @@ kmod-fs-exfat
 kmod-fs-ext4
 kmod-fs-f2fs
 kmod-fs-squashfs
+kmod-fs-vfat
 kmod-fs-xfs
 
 # Libraries

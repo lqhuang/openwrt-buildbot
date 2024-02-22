@@ -1,10 +1,9 @@
 # Filesystem
-e2fsprogs
-f2fs-tools
-#xfsprogs # includes `xfs-admin`, `xfs-mkfs`, `xfs-fsck`, `xfs-growfs`
-xfs-fsck
-xfs-growfs
-xfs-mkfs
+dosfstools  # fat32
+e2fsprogs   # ext4
+libblkid1   # exfat
+f2fs-tools  # f2fs
+xfsprogs    # xfs
 
 # kernel
 libbpf
@@ -54,7 +53,9 @@ dnsmasq_full_conntrack
 #ipmitool
 ip-full
 
+###
 # Utilities
+###
 
 ## for compression
 bzip2
@@ -66,11 +67,16 @@ xz
 zstd
 
 ## Disc
-fdisk
-gdisk
+fdisk  # is used to create/modify partitions on a drive initialized with MBR scheme
+gdisk  # is used to create/modify partitions on a drive initialized with GPT scheme
 lsblk
 nvme-cli
 parted
+losetup
+resize2fs
+fstools
+blockd
+block-mount
 
 ## Editors
 # vim
@@ -83,6 +89,7 @@ zoneinfo-asia
 zoneinfo-europe
 
 ## Misc
+diffutils
 grep
 irqbalance
 less
@@ -139,7 +146,7 @@ sing-box
 # ../../vendor/github.com/quic-go/quic-go/internal/qtls/go121.go:5:13: cannot use "The version of quic-go you're using can't be built on Go 1.21 yet. For more details, please see https://github.com/quic-go/quic-go/wiki/quic-go-and-Go-versions." (untyped string constant "The version of quic-go you're using can't be built on Go 1.21 yet. F...) as int value in variable declaration
 -cloudflared
 
-##For bugfix
+## For bugfix
 
 # `service network restart` will invoke `/sbin/wifi` !???
 # if `wifi-scripts` is not installed, it raises an error

@@ -11,11 +11,8 @@ luci-mod-status
 luci-mod-system
 
 ## 4. Themes
-#luci-theme-bootstrap
-luci-theme-openwrt
-luci-theme-openwrt-2020
-#luci-theme-argone
-#luci-app-argon-config
+luci-theme-bootstrap  # current default (as of Feb, 2024)
+luci-theme-argon
 
 ## 5. Protocols
 luci-proto-autoip
@@ -30,23 +27,22 @@ luci-proto-wireguard
 luci-app-acl
 luci-app-acme
 #luci-app-ahcp
+luci-app-argon-config
 luci-app-attendedsysupgrade
 luci-app-ddns
 luci-app-email
 luci-app-firewall
 luci-app-irqbalance
--luci-app-mwan3  # depended on `iptables` now (2024-02-19). WTF
+#luci-app-mwan3  # depended on `iptables` now (2024-02-19). WTF
+luci-app-nft-qos
 luci-app-opkg
-luci-app-pbr
-pbr
--pbr-iptables
+luci-app-pbr  # better to include `pbr` and exclude `pbr-iptables`
 luci-app-smartdns
+#luci-app-sqm  # depended on `iptables` now (2024-02-19). WTF
 luci-app-udpxy
 #luci-app-wol
 
-luci-app-nft-qos
-#luci-app-sqm  # depended on `iptables` now (2024-02-19). WTF
-
+### Monitors
 luci-app-nlbwmon
 luci-app-vnstat2
 luci-app-watchcat
@@ -55,7 +51,6 @@ darkstat
 luci-app-statistics
 collectd
 collectd-mod-rrdtool
-
 collectd-mod-cpu
 collectd-mod-cpufreq
 collectd-mod-dns

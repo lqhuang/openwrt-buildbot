@@ -1,7 +1,9 @@
+# Add custom feeds
 # docs: https://openwrt.org/docs/guide-developer/feeds
 # src-git: Data is downloaded from the source path/URL using git as a shallow (depth of 1) clone
 
-# Custom feeds
 #src-git helloworld https://github.com/fw876/helloworld.git
 #src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2.git
 #src-git immortalwrt https://github.com/immortalwrt/packages.git
+src-git luci_theme_argon https://github.com/jerrykuku/luci-theme-argon.git
+src-git luci_app_argon_config https://github.com/jerrykuku/luci-app-argon-config.git
