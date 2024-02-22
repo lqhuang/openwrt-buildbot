@@ -54,8 +54,12 @@ ARTIFACT_IMAGEBUILDER := ${OPENWRT_URL_RELEASE}/${OPENWRT_TARGET}/${OPENWRT_IMAG
 BUILDROOT := openwrt
 # directory for docker builder
 DOCKER_BUILDER := openwrt-docker-builder
+
 # directory to put customized files
-CUSTOM := custom
+# Define which profile (under `profiles/` dir) to build
+DIR_PROFILES := ./profiles
+PROFILE      := x86_64-default
+PROFILE_PATH = ${DIR_PROFILES}/${PROFILE}
 CUSTOM_PACKAGES_CONFIG := 9999.custom.config
 
 # directory to store final artifacts
@@ -74,6 +78,7 @@ show-openwrt-envs:
 	echo ${ARTIFACT_LLVM_BPF}
 	echo ${ARTIFACT_TOOLCHAIN}
 	echo ${ARTIFACT_IMAGEBUILDER}
+	echo ${PROFILE_PATH}
 
 show-nproc:
 	echo ${NPROC}
@@ -147,24 +152,24 @@ install-prebuilt-sdk: #setup-sdk
 
 reformat-packages:
 	@echo "Reformat packages..."
-	rm -f ${CUSTOM}/config/${CUSTOM_PACKAGES_CONFIG}
-	python3 write-packages.py ${CUSTOM}/packages/* > ${CUSTOM}/config/${CUSTOM_PACKAGES_CONFIG}
+	rm -f ${PROFILE_PATH}/config/${CUSTOM_PACKAGES_CONFIG}
+	python3 write-packages.py ${PROFILE_PATH}/packages/* > ${PROFILE_PATH}/config/${CUSTOM_PACKAGES_CONFIG}
 	@echo "Done"
 
 bump-config: reformat-packages
-	rm -f ${CUSTOM}/.config ${CUSTOM}/.config.old
+	rm -f ${PROFILE_PATH}/.config ${PROFILE_PATH}/.config.old
 	rm -f ${BUILDROOT}/.config ${BUILDROOT}/.config.old
-	cat ${CUSTOM}/config/*.config > ${BUILDROOT}/.config
+	cat ${PROFILE_PATH}/config/*.config > ${BUILDROOT}/.config
 
 bump-config-docker: reformat-packages
-	rm -f ${CUSTOM}/.config ${CUSTOM}/.config.old
-	cat ${CUSTOM}/config/*.config > ${DOCKER_BUILDER}/.generated.config
+	rm -f ${PROFILE_PATH}/.config ${PROFILE_PATH}/.config.old
+	cat ${PROFILE_PATH}/config/*.config > ${DOCKER_BUILDER}/.generated.config
 
 provision: bump-config
 	pushd ${BUILDROOT}; git restore feeds.conf.default; popd
 	sed -i 's/src-git telephony/#src-git telephony/g' ${BUILDROOT}/feeds.conf.default
-	cat ${CUSTOM}/feeds.conf.default >> ${BUILDROOT}/feeds.conf.default
-	cp -rf ${CUSTOM}/files ${BUILDROOT}/
+	cat ${PROFILE_PATH}/feeds.conf.default >> ${BUILDROOT}/feeds.conf.default
+	cp -rf ${PROFILE_PATH}/files ${BUILDROOT}/
 
 ## Build stage
 
