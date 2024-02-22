@@ -1,9 +1,5 @@
 # Network Control and Montior
 
-## DNS
-
-- https://openwrt.org/docs/guide-user/services/dns/adguard-home
-
 ## Enhancements
 
 - [Enable SQM for OpenWRT / LEDE](https://gist.github.com/pavelik/3f7df7f6393e1a377ff7f9af1e9a056e)

@@ -19,6 +19,8 @@
     keeping normal internet connectivity. Each interface can have multiple
     aliases attached to it.
   - TL;DR: aliases feature help to support both `DHCP` and `Static`
+- [Network Components](https://openwrt.org/docs/guide-user/network/architecture/components)
+- https://openwrt.org/docs/guide-user/firewall/misc/nftables
 
 ## DHCP
 
