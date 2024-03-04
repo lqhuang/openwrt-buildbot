@@ -1,5 +1,1 @@
-/bin/ash
-/bin/bash
-/bin/zsh
-/usr/bin/bash
-/usr/bin/zsh
+../../../shared-x86_64/files/etc/shells
