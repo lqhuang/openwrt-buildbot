@@ -1,0 +1,26 @@
+config dhcp 'lan'
+	option interface 'lan'
+	option start '2'
+	option limit '253'
+	option leasetime '12h'
+	option dhcpv4 'server'
+	option dhcpv6 'server'
+	option ra 'server'
+	option ra_default '1'
+	list ra_flags 'managed-config'
+	list ra_flags 'other-config'
+	list domain 'local'
+
+config dnsmasq 'dnsmasq'
+	option local '/local/'
+	option domain 'local'
+
+	option domainneeded '1'
+	option boguspriv '1'
+	option localise_queries '1'
+	option expandhosts '1'
+
+	option authoritative '1'  # This speeds up DHCP leasing. Used if this is the only server on the network
+	option rebind_protection '0'
+
+	option cachesize '30000'

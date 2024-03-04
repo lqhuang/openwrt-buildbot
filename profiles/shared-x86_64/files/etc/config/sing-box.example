@@ -1,0 +1,7 @@
+# Source: https://github.com/openwrt/packages/blob/master/net/sing-box/files/sing-box.conf
+
+config sing-box 'main'
+	option enabled '1'
+	option user 'sing-box'
+	option conffile '/etc/sing-box/config.json'
+	option workdir '/usr/share/sing-box'

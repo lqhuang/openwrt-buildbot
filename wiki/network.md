@@ -12,6 +12,7 @@
   - [WAN / Bridge mode](https://openwrt.org/docs/guide-user/network/wan/bridge-mode)
 - [IPv4 configuration](https://openwrt.org/docs/guide-user/network/ipv4/configuration)
 - [IPv6 configuration](https://openwrt.org/docs/guide-user/network/ipv6/configuration)
+  - [NAT66 and IPv6 masquerading](https://openwrt.org/docs/guide-user/network/ipv6/ipv6.nat6)
 - [Network interface aliases](https://openwrt.org/docs/guide-user/network/network_interface_alias)
   - Alias sections can be used to define further IPv4 and IPv6 addresses for
     interfaces. They also allow combinations like DHCP on the main interface and
@@ -21,6 +22,8 @@
   - TL;DR: aliases feature help to support both `DHCP` and `Static`
 - [Network Components](https://openwrt.org/docs/guide-user/network/architecture/components)
 - https://openwrt.org/docs/guide-user/firewall/misc/nftables
+- [MultipathTCP and OpenWrt](https://openwrt.org/docs/guide-user/network/mptcp)
+- [UCI networking options cheatsheet](https://openwrt.org/docs/guide-user/network/ucicheatsheet)
 
 ## DHCP
 

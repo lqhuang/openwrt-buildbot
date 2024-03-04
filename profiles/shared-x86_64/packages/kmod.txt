@@ -56,6 +56,9 @@ kmod-nft-bridge
 kmod-nft-connlimit
 kmod-nft-dup-inet
 kmod-nft-nat
+kmod-nf-nat6
+kmod-nf-nathelper
+kmod-nf-nathelper-extra
 kmod-nft-netdev
 kmod-nft-offload
 kmod-nft-queue
@@ -64,8 +67,6 @@ kmod-nft-tproxy
 kmod-nft-xfrm
 
 # Network Support
-kmod-arptables
-kmod-br-netfilter
 #kmod-bonding
 kmod-dnsresolver
 kmod-ppp

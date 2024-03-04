@@ -93,7 +93,6 @@ diffutils
 grep
 irqbalance
 less
-lsof
 rng-tools
 tar
 tree
@@ -109,7 +108,6 @@ tcpdump
 iperf3
 bind-dig
 dnstop
-arp-scan
 
 # end of Utilities
 
@@ -121,7 +119,8 @@ umdns
 ## NOTE: too heavy, requiring dbus
 ##avahi-utils
 
-## for sudo
+## for users and sudo
+shadow-utils
 sudo
 
 ## Optional improve
