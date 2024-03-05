@@ -40,7 +40,7 @@ OPENWRT_URL_RELEASE := ${OPENWRT_URL_DOWNLOADS}/${OPENWRT_URL_VERSION}/targets
 # example:
 #   1. https://downloads.openwrt.org/snapshots/targets/x86/64/openwrt-toolchain-x86-64_gcc-12.3.0_musl.Linux-x86_64.tar.xz
 #   2. https://downloads.openwrt.org/releases/23.05.2/targets/x86/64/openwrt-toolchain-23.05.2-x86-64_gcc-12.3.0_musl.Linux-x86_64.tar.xz
-FILE_PATTERN          := Linux-${OPENWRT_TARGET_ARCH}.tar.xz
+FILE_PATTERN          := Linux-${OPENWRT_TARGET_NAME}.tar.xz
 OPENWRT_SDK           := openwrt-sdk${ARTIFACT_PREFIX}-${OPENWRT_TARGET_VAR}_gcc-${GCC_VERSION}_musl.${FILE_PATTERN}
 OPENWRT_LLVM_BPF      := llvm-bpf-${LLVM_VERSION}.${FILE_PATTERN}
 OPENWRT_TOOLCHAIN     := openwrt-toolchain${ARTIFACT_PREFIX}-${OPENWRT_TARGET_VAR}_gcc-${GCC_VERSION}_musl.${FILE_PATTERN}
@@ -90,28 +90,35 @@ install-prerequisites:
 	sudo -E apt install -y --no-install-recommends --no-install-suggests \
 		ca-certificates \
 		wget curl xz-utils bzip2 unzip less rsync git file gawk \
-		build-essential make mold python3 python3-distutils \
+		build-essential make automake mold python3 python3-distutils \
 		libncurses-dev
 	sudo -E apt autoremove -y -qq --purge
 	sudo -E apt clean -qq
 
-setup-image-builder:
+download-image-builder:
 	mkdir -p ./openwrt-imagebuilder
 	rm -rf ./openwrt-imagebuilder/*
 	curl -L ${ARTIFACT_IMAGEBUILDER} | tar --strip-component=1 -C ./openwrt-imagebuilder -xJf -
 
-setup-sdk:
+download-sdk:
 	mkdir -p ./openwrt-sdk
 	rm -rf ./openwrt-sdk/*
-	curl -L ${ARTIFACT_SDK} | tar --strip-component=1 -C ./openwrt-sdk -xJf -
+	curl --output-dir ${CACHE_PREBUILT} -OL ${ARTIFACT_SDK}
 
-setup-toolchain:
+download-toolchain:
 	# rm -rf ${CACHE_PREBUILT}/${OPENWRT_TOOLCHAIN}
 	curl --output-dir ${CACHE_PREBUILT} -OL ${ARTIFACT_TOOLCHAIN}
 
-setup-llvm-bpf:
+download-llvm-bpf:
 	# rm -rf ${CACHE_PREBUILT}/${OPENWRT_LLVM_BPF}
 	curl --output-dir ${CACHE_PREBUILT} -OL ${ARTIFACT_LLVM_BPF}
+
+install-prebuilt-sdk:
+	mkdir -p ./openwrt-sdk
+	tar --strip-component=1 -C ./openwrt-sdk -xJf ${CACHE_PREBUILT}/${OPENWRT_SDK}
+	rsync -aP -qi --delete ./openwrt-sdk/staging_dir ${BUILDROOT}/
+	rsync -aP -qi --delete ./openwrt-sdk/build_dir ${BUILDROOT}/
+	rm -rf ./openwrt-sdk
 
 setup-openwrt-branch:
 	git clone --depth 1 --single-branch --branch openwrt-${OPENWRT_VERSION} ${OPENWRT_REPO} ./${BUILDROOT}
@@ -128,25 +135,6 @@ pull-openwrt:
 setup-cache:
 	ln -s ${CACHE_DL} ${BUILDROOT}/dl
 	ln -s ${CACHE_CCACHE} ${BUILDROOT}/.ccache
-
-install-prebuilt-sdk: #setup-sdk
-	mkdir -p ${BUILDROOT}/staging_dir
-	rsync -avP ./openwrt-sdk/staging_dir/host ${BUILDROOT}/staging_dir/
-	pushd ${BUILDROOT}; ./scripts/ext-tools.sh --refresh; popd
-
-# install-prebuilt:
-# 	pushd ${BUILDROOT}
-# 	mkdir -p ./build_dir/host
-# 	mkdir -p ./staging_dir/host/stamp
-# 	./scripts/ext-tools.sh \
-# 		--host-build-dir ./build_dir/host \
-# 		--host-staging-dir-stamp ./staging_dir/host/stamp \
-# 		--tools ../${CACHE_PREBUILT}/${OPENWRT_TOOLCHAIN}
-# 	./scripts/ext-tools.sh \
-# 		--host-build-dir ./build_dir/host \
-# 		--host-staging-dir-stamp ./staging_dir/host/stamp \
-# 		--tools ../${CACHE_PREBUILT}/${OPENWRT_LLVM_BPF}
-# 	popd
 
 #########
 
@@ -169,11 +157,11 @@ provision: bump-config
 	pushd ${BUILDROOT}; git restore feeds.conf.default; popd
 	sed -i 's/src-git telephony/#src-git telephony/g' ${BUILDROOT}/feeds.conf.default
 	cat ${PROFILE_PATH}/feeds.conf.default >> ${BUILDROOT}/feeds.conf.default
-	cp -rf ${PROFILE_PATH}/files ${BUILDROOT}/
+	rsync -aP -q -kL --delete ${PROFILE_PATH}/files ${BUILDROOT}/
 
 ## Build stage
 
-.PHONY: update-feeds install-feeds feeds defconfig configure reconfigure download build full-clean
+.PHONY: update-feeds install-feeds feeds defconfig configure reconfigure download build full-clean refresh
 
 update-feeds:
 	pushd ${BUILDROOT}
@@ -196,17 +184,24 @@ defconfig:
 configure: provision feeds defconfig
 reconfigure: provision defconfig
 
+refresh:
+	mkdir -p ${BUILDROOT}/staging_dir/host/stamp
+	mkdir -p ${BUILDROOT}/build_dir/host
+	pushd ${BUILDROOT}; ./scripts/ext-tools.sh --refresh; popd
+
 download:
 	make -C ${BUILDROOT} download -j${NPROC}
-	pushd ${BUILDROOT}; ./scripts/ext-tools.sh --refresh; popd
 	#make -C ${BUILDROOT} clean -j${NPROC}
 	#make -C ${BUILDROOT} world -j${NPROC}
 
-build:
+build: refresh
 	make -C ${BUILDROOT} -j${NPROC}
 	make -C ${BUILDROOT} checksum
 
-build-debug:
+all: configure download build
+
+build-debug: refresh
+	pushd ${BUILDROOT}; ./scripts/ext-tools.sh --refresh; popd
 	make -C ${BUILDROOT} -j1 V=sc
 
 full-clean:
