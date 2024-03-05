@@ -1,5 +1,6 @@
 *.custom.config
-openwrt-imagebuilder
-openwrt-llvm-bpf
-openwrt-toolchain
-openwrt-sdk
+openwrt/
+openwrt-imagebuilder/
+openwrt-llvm-bpf/
+openwrt-toolchain/
+openwrt-sdk/

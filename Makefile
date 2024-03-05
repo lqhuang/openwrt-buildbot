@@ -71,6 +71,9 @@ CACHE_DL  := ${CACHE_DIR}/dl
 CACHE_CCACHE := ${CACHE_DIR}/.ccache
 CACHE_PREBUILT := ${CACHE_DIR}/prebuilt
 
+## Lazy default
+default: bootstrap setup-openwrt-src all
+
 ## For env debug
 show-openwrt-envs:
 	echo ${OPENWRT_VERSION}
