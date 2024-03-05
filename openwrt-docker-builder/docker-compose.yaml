@@ -1,8 +1,8 @@
 services:
   builder:
     # image: openwrt/sdk:x86_64-main
-    # image: ghcr.io/openwrt/imagebuilder:x86-64-23.05-SNAPSHOT
-    image: ubuntu:22.04
+    image: ghcr.io/openwrt/sdk:x86_64-SNAPSHOT
+    # image: ubuntu:22.04
     # build:
     #   context: .
     #   dockerfile: Dockerfile
@@ -12,22 +12,22 @@ services:
     init: true
     user: ${UID?}:${GID?}
     network_mode: bridge
-    env_file:
-      - .env
-    volumes:
-      # will create a bin directory with root permissions (don't do this)
-      # why only `bin` directory would be created with root permissions?
-      # - ../artifacts/bin/targets:/builder/bin/targets
+    # env_file:
+    #   - .env
+    # volumes:
+    #   # will create a bin directory with root permissions (don't do this)
+    #   # why only `bin` directory would be created with root permissions?
+    #   # - ../artifacts/bin/targets:/builder/bin/targets
 
-      - ../custom/files:/builder/files
-      - ./feeds.conf.default:/builder/feeds.conf.default
-      - ./.generated.config:/builder/.generated.config
+    #   - ../custom/files:/builder/files
+    #   - ./feeds.conf.default:/builder/feeds.conf.default
+    #   - ./.generated.config:/builder/.generated.config
 
-      # custom scripts
-      - ./run-builder.sh:/builder/run-builder.sh
-      - ./setup-prebuilt.sh:/builder/setup-prebuilt.sh
+    #   # custom scripts
+    #   - ./run-builder.sh:/builder/run-builder.sh
+    #   - ./setup-prebuilt.sh:/builder/setup-prebuilt.sh
 
-      # cache
-      - ../.cache/dl:/builder/dl
-      - ../.cache/.ccache:/builder/.ccache
+    #   # cache
+    #   - ../.cache/dl:/builder/dl
+    #   - ../.cache/.ccache:/builder/.ccache
     stdin_open: true # keep running without shutting down

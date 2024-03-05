@@ -8,6 +8,7 @@
 
 - ghcr.io/openwrt/toolchain:x86-64-openwrt-23.05
 - ghcr.io/openwrt/toolchain:x86-64-latest
+- ghcr.io/openwrt/sdk:x86_64-SNAPSHOT
 - ghcr.io/openwrt/sdk:x86-64-23.05-SNAPSHOT
 - ghcr.io/openwrt/sdk:x86-64-openwrt-23.05
 - ghcr.io/openwrt/imagebuilder:x86-64-23.05-SNAPSHOT

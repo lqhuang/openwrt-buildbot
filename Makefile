@@ -86,7 +86,7 @@ show-nproc:
 	echo ${NPROC}
 
 ## Setup stage
-install-prerequisites:
+bootstrap:
 	sudo -E apt update -y -qq
 	sudo -E apt full-upgrade -y -qq
 	sudo -E apt install -y --no-install-recommends --no-install-suggests \
@@ -112,13 +112,20 @@ download-llvm-bpf:
 	# rm -rf ${CACHE_PREBUILT}/${OPENWRT_LLVM_BPF}
 	curl --output-dir ${CACHE_PREBUILT} -OL ${ARTIFACT_LLVM_BPF}
 
+install-prebuilt-toolchain:
+	mkdir -p ${BUILDROOT}/staging_dir
+	tar --strip-component=1 -C ${BUILDROOT}/staging_dir -xJf ${CACHE_PREBUILT}/${OPENWRT_TOOLCHAIN}
+
+install-prebuilt-llvm-bpf:
+	mkdir -p ${BUILDROOT}/staging_dir
+	tar -C ${BUILDROOT}/staging_dir -xJf ${CACHE_PREBUILT}/${OPENWRT_LLVM_BPF}
+
+SDK_DIRNAME = $(basename $(basename ${OPENWRT_SDK}))
 install-prebuilt-sdk:
-	mkdir -p ./openwrt-sdk
-	rm -rf ./openwrt-sdk/*
-	tar --strip-component=1 -C ./openwrt-sdk -xJf ${CACHE_PREBUILT}/${OPENWRT_SDK}
-	rsync -aP -qi --delete ./openwrt-sdk/staging_dir ${BUILDROOT}/
-	rsync -aP -qi --delete ./openwrt-sdk/build_dir ${BUILDROOT}/
-	rm -rf ./openwrt-sdk
+	rm -rf ${BUILDROOT}/staging_dir ${BUILDROOT}/build_dir
+	tar --strip-components=1 -C ${BUILDROOT} -xJf ${CACHE_PREBUILT}/${OPENWRT_SDK} ${SDK_DIRNAME}/staging_dir ${SDK_DIRNAME}/build_dir
+	#rsync -aP -qi --delete ./openwrt-sdk/staging_dir ${BUILDROOT}/
+	#rsync -aP -qi --delete ./openwrt-sdk/build_dir ${BUILDROOT}/
 
 setup-openwrt-branch:
 	git clone --depth 1 --single-branch --branch openwrt-${OPENWRT_VERSION} ${OPENWRT_REPO} ./${BUILDROOT}
