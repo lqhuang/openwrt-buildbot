@@ -51,7 +51,9 @@ ARTIFACT_TOOLCHAIN    := ${OPENWRT_URL_RELEASE}/${OPENWRT_TARGET}/${OPENWRT_TOOL
 ARTIFACT_IMAGEBUILDER := ${OPENWRT_URL_RELEASE}/${OPENWRT_TARGET}/${OPENWRT_IMAGEBUILDER}
 
 # directory for build root
-BUILDROOT := openwrt
+BUILDROOT  := openwrt
+OUTPUTROOT := ${BUILDROOT}/bin/targets/${OPENWRT_TARGET}
+
 # directory for docker builder
 DOCKER_BUILDER := openwrt-docker-builder
 
@@ -96,13 +98,10 @@ install-prerequisites:
 	sudo -E apt clean -qq
 
 download-image-builder:
-	mkdir -p ./openwrt-imagebuilder
-	rm -rf ./openwrt-imagebuilder/*
 	curl -L ${ARTIFACT_IMAGEBUILDER} | tar --strip-component=1 -C ./openwrt-imagebuilder -xJf -
 
 download-sdk:
-	mkdir -p ./openwrt-sdk
-	rm -rf ./openwrt-sdk/*
+	# rm -rf ${CACHE_PREBUILT}/${OPENWRT_SDK}
 	curl --output-dir ${CACHE_PREBUILT} -OL ${ARTIFACT_SDK}
 
 download-toolchain:
@@ -115,6 +114,7 @@ download-llvm-bpf:
 
 install-prebuilt-sdk:
 	mkdir -p ./openwrt-sdk
+	rm -rf ./openwrt-sdk/*
 	tar --strip-component=1 -C ./openwrt-sdk -xJf ${CACHE_PREBUILT}/${OPENWRT_SDK}
 	rsync -aP -qi --delete ./openwrt-sdk/staging_dir ${BUILDROOT}/
 	rsync -aP -qi --delete ./openwrt-sdk/build_dir ${BUILDROOT}/
@@ -159,7 +159,9 @@ provision: bump-config
 	cat ${PROFILE_PATH}/feeds.conf.default >> ${BUILDROOT}/feeds.conf.default
 	rsync -aP -q -kL --delete ${PROFILE_PATH}/files ${BUILDROOT}/
 
-## Build stage
+##############################
+####### Build stage ##########
+##############################
 
 .PHONY: update-feeds install-feeds feeds defconfig configure reconfigure download build full-clean refresh
 
@@ -194,15 +196,19 @@ download:
 	#make -C ${BUILDROOT} clean -j${NPROC}
 	#make -C ${BUILDROOT} world -j${NPROC}
 
-build: refresh
+build: #refresh
 	make -C ${BUILDROOT} -j${NPROC}
 	make -C ${BUILDROOT} checksum
 
-all: configure download build
 
-build-debug: refresh
-	pushd ${BUILDROOT}; ./scripts/ext-tools.sh --refresh; popd
+build-debug: #refresh
 	make -C ${BUILDROOT} -j1 V=sc
+
+VERSION = $(shell date +%Y%m%d)-$(shell cat ${OUTPUTROOT}/version.buildinfo)
+collect:
+	rsync -aP -qi --exclude packages ${OUTPUTROOT}/ ${BUILD_ARTIFACTS}/${VERSION}/
+
+all: configure download build
 
 full-clean:
 	make -C ${BUILDROOT} config-clean
