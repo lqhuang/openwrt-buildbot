@@ -69,6 +69,7 @@ kmod-nft-xfrm
 # Network Support
 #kmod-bonding
 kmod-dnsresolver
+kmod-netlink-diag
 kmod-ppp
 kmod-mppe
 

@@ -64,3 +64,40 @@ forcelly:
 Refs:
 
 - [Warning iptables use legacy](https://forum.openwrt.org/t/warning-iptables-use-legacy/127752)
+
+## DHCP doesn't delegate correct DNS Server to clients
+
+1. Set WAN dns
+
+```
+config interface 'wan'
+	option proto 'pppoe'
+	...
+	option peerdns '0'
+	option dns '208.67.222.222 208.67.220.220'
+```
+
+2. Set DHCP Option 6 for interface `lan`
+   - for example: "6,192.168.1.1,192.168.1.2"
+
+```
+config dhcp 'lan'
+	option interface 'lan'
+	...
+	list dhcp_option '6,208.67.222.222,208.67.220.220'
+```
+
+3. DHCP and DNS -> DHCP-Options
+
+```
+config dhcp 'lan'
+	option interface 'lan'
+	option leasetime '2h'
+	list ra_flags 'managed-config'
+	list ra_flags 'other-config'
+	list domain 'local'
+  ...
+	list dhcp_option '6,192.168.1.1'
+```
+
+- [Correct Way to Set DNS Server](https://forum.openwrt.org/t/correct-way-to-set-dns-server/34019)

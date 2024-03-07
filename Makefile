@@ -66,13 +66,13 @@ CUSTOM_PACKAGES_CONFIG := 9999.custom.config
 
 # directory to store final artifacts
 BUILD_ARTIFACTS := artifacts
-CACHE_DIR := .cache
-CACHE_DL  := ${CACHE_DIR}/dl
-CACHE_CCACHE := ${CACHE_DIR}/.ccache
-CACHE_PREBUILT := ${CACHE_DIR}/prebuilt
+CACHE_DIR       := .cache
+CACHE_DL        := ${CACHE_DIR}/dl
+CACHE_CCACHE    := ${CACHE_DIR}/.ccache
+CACHE_PREBUILT  := ${CACHE_DIR}/prebuilt
 
 ## Lazy default
-default: bootstrap setup-openwrt-src all
+default: setup-openwrt-src configure all
 
 ## For env debug
 show-openwrt-envs:
@@ -95,7 +95,7 @@ bootstrap:
 	sudo -E apt install -y --no-install-recommends --no-install-suggests \
 		ca-certificates \
 		wget curl xz-utils bzip2 unzip less rsync git file gawk \
-		build-essential make automake mold python3 python3-distutils \
+		build-essential make mold python3 python3-distutils \
 		libncurses-dev
 	sudo -E apt autoremove -y -qq --purge
 	sudo -E apt clean -qq
@@ -193,7 +193,7 @@ defconfig:
 	# make  -C ${BUILDROOT} kernel_menuconfig # CONFIG_TARGET=subtarget
 	cp -f ${BUILDROOT}/.config ${BUILD_ARTIFACTS}/config.buildinfo
 
-configure: provision feeds defconfig
+configure: provision feeds feeds defconfig
 reconfigure: provision defconfig
 
 refresh:
@@ -209,7 +209,6 @@ download:
 build: #refresh
 	make -C ${BUILDROOT} -j${NPROC}
 	make -C ${BUILDROOT} checksum
-
 
 build-debug: #refresh
 	make -C ${BUILDROOT} -j1 V=sc

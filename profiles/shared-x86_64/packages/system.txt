@@ -52,6 +52,7 @@ dnsmasq_full_conntrack
 #snmpd
 #ipmitool
 ip-full
+ss
 
 ###
 # Utilities

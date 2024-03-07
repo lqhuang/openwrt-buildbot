@@ -23,9 +23,9 @@ config interface 'lan'
 
 	# config IPv6 (NAT6 for mwan)
 	option ipv6 '1'
-	option ip6class 'local'  # only assign the ULA-prefix
 	option ip6assign '64'
 	option ra_default '1'
+	list ip6class 'local'  # only assign the ULA-prefix
 
 #config interface 'lan_static'
 #	option device '@lan'
@@ -36,13 +36,20 @@ config interface 'lan'
 config interface 'wan'
 	option proto 'dhcp'
 	option device 'eth0'
-	option ipv6 '1'
+
 	option peerdns '0'
-	list dns '119.29.29.29'
+
+	option ipv6 '1'
+	option sourcefilter '0'
+	option delegate '0'
 
 config interface 'wanx'
 	option proto 'static'
 	option device 'eth1'
 	option ipv6 '1'
 	option defaultroute '0'
-	#option peerdns '0'
+	option peerdns '0'
+
+	option ipv6 '1'
+	option sourcefilter '0'
+	option delegate '0'

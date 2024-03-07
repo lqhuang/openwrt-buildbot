@@ -18,7 +18,18 @@
 
 ## AdGuard Home
 
-- https://openwrt.org/docs/guide-user/services/dns/adguard-home
+- [AdGuard Home](https://openwrt.org/docs/guide-user/services/dns/adguard-home)
+- [OpenWrt AdGuard Home 101 (DNSMASQ)](https://forum.openwrt.org/t/openwrt-adguard-home-101-dnsmasq/110864)
+- [DNS Interception](https://openwrt.org/docs/guide-user/services/dns/adguard-home#dns_interception)
+  - In order to make sure all DNS traffic goes through your primary DNS
+    resolver, you can enforce this through firewall rules.
+
+> If AdGuard Home won't start, you will want to view error logs to understand
+> why.
+>
+> If using the opkg package you can view syslog for errors using logread.
+
+>     logread -e AdGuardHome
 
 ## ACME
 
