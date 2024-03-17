@@ -1,0 +1,5 @@
+*
+!.gitignore
+!shared-x86_64/
+!shared-x86_64/**/*
+**custom.config

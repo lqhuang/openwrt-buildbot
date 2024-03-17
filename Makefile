@@ -216,6 +216,7 @@ build-debug: #refresh
 VERSION = $(shell date +%Y%m%d)-$(shell cat ${OUTPUTROOT}/version.buildinfo)
 collect:
 	rsync -aP -qi --exclude packages ${OUTPUTROOT}/ ${BUILD_ARTIFACTS}/${VERSION}/
+	cp -f ${BUILDROOT}/.config ${BUILD_ARTIFACTS}/${VERSION}/config-full.buildinfo
 
 all: configure download build
 
