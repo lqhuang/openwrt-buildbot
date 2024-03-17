@@ -21,6 +21,7 @@ kmod-crypto-sha512
 #kmod-cryptodev
 
 # Filesystems
+kmod-fs-autofs4
 kmod-fs-exfat
 kmod-fs-ext4
 kmod-fs-f2fs

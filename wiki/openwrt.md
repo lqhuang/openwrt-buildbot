@@ -110,14 +110,6 @@ uci commit
 - [Embedding Files in Image](https://openwrt.org/docs/guide-developer/embedding-files-in-image)
 - [Patching your application: Editing existing files](https://openwrt.org/docs/guide-developer/helloworld/chapter8)
 - [Patching your application: Adding new files](https://openwrt.org/docs/guide-developer/helloworld/chapter7)
-- Filesystems
-  - [Filesystems](https://openwrt.org/docs/techref/filesystems)
-  - [OpenWrt File System Hierarchy / Memory Usage](https://openwrt.org/docs/techref/file_system)
-  - [Filesystems and Partitions](https://openwrt.org/docs/guide-user/storage/filesystems-and-partitions)
-  - [Flash memory](https://openwrt.org/docs/techref/flash)
-  - [The OpenWrt Flash Layout](https://openwrt.org/docs/techref/flash.layout)
-  - [Saving firmware space and RAM](https://openwrt.org/docs/guide-user/additional-software/saving_space)
-  - [Extroot configuration](https://openwrt.org/docs/guide-user/additional-software/extroot_configuration)
 
 ## Monitoring
 

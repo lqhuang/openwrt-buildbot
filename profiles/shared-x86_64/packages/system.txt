@@ -4,6 +4,7 @@ e2fsprogs   # ext4
 libblkid1   # exfat
 f2fs-tools  # f2fs
 xfsprogs    # xfs
+xfs-mkfs    # avoid `mkfs.xfs` not found
 
 # kernel
 libbpf
@@ -70,7 +71,10 @@ zstd
 ## Disc
 fdisk  # is used to create/modify partitions on a drive initialized with MBR scheme
 gdisk  # is used to create/modify partitions on a drive initialized with GPT scheme
+sgdisk # A command-line program intended for use in scripts or by experts who need quick and direct access to a specific feature
+cgdisk # A curses-based interactive text-mode program similar to cfdisk
 lsblk
+blkid
 nvme-cli
 parted
 losetup
@@ -81,7 +85,7 @@ block-mount
 
 ## Editors
 # vim
-vim-full  # Fixed "Failed to source defaults.vim"
+vim-fuller  # Fixed "Failed to source defaults.vim"
 
 ## Time Zone info
 zoneinfo-core
@@ -90,6 +94,7 @@ zoneinfo-asia
 zoneinfo-europe
 
 ## Misc
+whoami
 diffutils
 grep
 irqbalance
@@ -104,6 +109,7 @@ zsh
 wget
 curl
 rsync
+rsyncd
 htop
 tcpdump
 iperf3
@@ -130,13 +136,16 @@ ddns-scripts-cloudflare
 wireguard-tools
 adguardhome
 
+openwisp-config
+openwisp-monitoring
+
 ## monitoring
 #syslog-ng
 #zabbix-agentd
 #zabbix-sender
 
 ## Web Servers/Proxies
-haproxy
+#haproxy
 tcping
 -shadowsocks-rust
 naiveproxy

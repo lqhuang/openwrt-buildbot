@@ -8,4 +8,7 @@ service umdns start
 service irqbalance enable
 service irqbalance start
 
+#service adguardhome enable
+#service adguardhome start
+
 # By default, NTP client is enabled and NTP server is disabled.

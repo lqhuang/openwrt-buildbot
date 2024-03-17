@@ -12,8 +12,7 @@ luci-mod-system
 
 ## 4. Themes
 luci-theme-bootstrap  # current default (as of Feb, 2024)
-luci-theme-material
-#luci-theme-argon
+#luci-theme-material
 
 ## 5. Protocols
 luci-proto-autoip
@@ -28,25 +27,24 @@ luci-proto-wireguard
 luci-app-acl
 luci-app-acme
 #luci-app-ahcp
-#luci-app-argon-config
 luci-app-attendedsysupgrade
 luci-app-ddns
 luci-app-email
 luci-app-firewall
 luci-app-irqbalance
-#luci-app-mwan3  # depended on `iptables` now (2024-02-19). WTF
+luci-app-mwan3  # depended on `iptables` now (2024-02-19)
 luci-app-nft-qos
 luci-app-opkg
 luci-app-pbr  # better to include `pbr` and exclude `pbr-iptables`
-luci-app-smartdns
-#luci-app-sqm  # depended on `iptables` now (2024-02-19). WTF
+#luci-app-smartdns
+#luci-app-sqm  # depended on `iptables` now (2024-02-19).
 luci-app-udpxy
 #luci-app-wol
 
 ### Monitors
 luci-app-nlbwmon
 luci-app-vnstat2
-luci-app-watchcat
+-luci-app-watchcat
 darkstat
 
 luci-app-statistics
@@ -69,31 +67,3 @@ collectd-mod-vmem
 #luci-app-gost
 #luci-app-openclash
 #luci-app-mosdns
-
-#
-# Configuration luci-app-passwall2
-#
-#-luci-app-passwall2
-
-#-luci-app-passwall2_Iptables_Transparent_Proxy
-#luci-app-passwall2_Nftables_Transparent_Proxy
-#
-#luci-app-passwall2_INCLUDE_Haproxy
-#luci-app-passwall2_INCLUDE_NaiveProxy
-#-luci-app-passwall2_INCLUDE_Shadowsocks_Libev_Client
-#-luci-app-passwall2_INCLUDE_Shadowsocks_Libev_Server
-#-luci-app-passwall2_INCLUDE_Shadowsocks_Rust_Client
-#-luci-app-passwall2_INCLUDE_Shadowsocks_Rust_Server
-#-luci-app-passwall2_INCLUDE_ShadowsocksR_Libev_Client
-#-luci-app-passwall2_INCLUDE_ShadowsocksR_Libev_Server
-#luci-app-passwall2_INCLUDE_SingBox
-#
-#-luci-app-passwall2_INCLUDE_Simple_Obfs
-#-luci-app-passwall2_INCLUDE_V2ray_Plugin
-#
-#-simple-obfs
-#-v2ray-geodata
-#-v2ray-core
-#-v2ray-plugin
-#-xray-core
-#-xray-plugin
