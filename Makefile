@@ -203,8 +203,9 @@ refresh:
 
 download:
 	make -C ${BUILDROOT} download -j${NPROC}
-	#make -C ${BUILDROOT} clean -j${NPROC}
-	#make -C ${BUILDROOT} world -j${NPROC}
+
+world:
+	make -C ${BUILDROOT} world -j${NPROC}
 
 build: #refresh
 	make -C ${BUILDROOT} -j${NPROC}
@@ -218,7 +219,10 @@ collect:
 	rsync -aP -qi --exclude packages ${OUTPUTROOT}/ ${BUILD_ARTIFACTS}/${VERSION}/
 	cp -f ${BUILDROOT}/.config ${BUILD_ARTIFACTS}/${VERSION}/config-full.buildinfo
 
-all: configure download build
+all: configure download clean build
+
+clean:
+	make -C ${BUILDROOT} clean
 
 full-clean:
 	make -C ${BUILDROOT} config-clean
