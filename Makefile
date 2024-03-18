@@ -222,6 +222,7 @@ collect:
 all: configure download clean build
 
 clean:
+	rm -rf ${BUILDROOT}/bin
 	make -C ${BUILDROOT} clean
 
 full-clean:

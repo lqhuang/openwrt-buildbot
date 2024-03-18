@@ -94,7 +94,6 @@ zoneinfo-asia
 zoneinfo-europe
 
 ## Misc
-whoami
 diffutils
 grep
 irqbalance
