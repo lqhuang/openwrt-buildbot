@@ -14,3 +14,6 @@
   andwidth Monitor NG is a small and simple console-based live network and disk
   io bandwidth monitor for Linux, BSD, Solaris, Mac OS X and others.
 - [collectd](https://www.collectd.org/): The system statistics collection daemon
+
+
+- [](https://grafana.com/docs/grafana-cloud/send-data/metrics/metrics-prometheus/prometheus-config-examples/openwrt-openwrt-packages/)

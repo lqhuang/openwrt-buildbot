@@ -7,8 +7,6 @@ xfsprogs    # xfs
 xfs-mkfs    # avoid `mkfs.xfs` not found
 
 # kernel
-libbpf
-#libelf
 libpcap
 libxdp
 qosify
@@ -16,8 +14,6 @@ xdp-filter
 xdp-loader
 xdpdump
 zlib
-#libpam
-#libnetsnmp
 
 nft-qos
 -qos-scripts  # will add `iptables` as deps
@@ -25,14 +21,13 @@ nft-qos
 -swconfig
 -odhcpd-ipv6only
 
-##
 attendedsysupgrade-common
 auc
 bridge
 
-openwrt-keyring
 ntpd
 generate-ipv6-address
+openwrt-keyring
 ca-certificates
 
 #coreutils
@@ -49,9 +44,6 @@ dnsmasq_full_nftset
 dnsmasq_full_conntrack
 
 ## Network
-#snmp-utils
-#snmpd
-#ipmitool
 ip-full
 ss
 
@@ -135,18 +127,23 @@ ddns-scripts-cloudflare
 wireguard-tools
 adguardhome
 
-openwisp-config
-openwisp-monitoring
-
 ## monitoring
 #syslog-ng
-#zabbix-agentd
-#zabbix-sender
+openwisp-config
+openwisp-monitoring
+prometheus-node-exporter-lua
+prometheus-node-exporter-lua-nat_traffic
+prometheus-node-exporter-lua-netstat
+prometheus-node-exporter-lua-openwrt
+Prometheus-node-exporter-lua-textfile
+prometheus-node-exporter-lua-uci_dhcp_host
+
 
 ## Web Servers/Proxies
-#haproxy
+haproxy
 tcping
--shadowsocks-rust
+shadowsocks-rust
+smartdns
 naiveproxy
 sing-box
 

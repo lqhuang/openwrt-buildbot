@@ -24,46 +24,26 @@ luci-proto-ipv6
 luci-proto-wireguard
 
 ## 3. Applications
-luci-app-acl
+#luci-app-acl
 luci-app-acme
 #luci-app-ahcp
 luci-app-attendedsysupgrade
 luci-app-ddns
 luci-app-email
 luci-app-firewall
+luci-app-frpc
 luci-app-irqbalance
-luci-app-mwan3  # depended on `iptables` now (2024-02-19)
+luci-app-minidlna
+#luci-app-mwan3  # depended on `iptables` now (2024-02-19)
+luci-app-natmap
 luci-app-nft-qos
+luci-app-nlbwmon
+luci-app-ntpc
+luci-app-openwisp
 luci-app-opkg
 luci-app-pbr  # better to include `pbr` and exclude `pbr-iptables`
-#luci-app-smartdns
+luci-app-smartdns
 #luci-app-sqm  # depended on `iptables` now (2024-02-19).
 luci-app-udpxy
-#luci-app-wol
-
-### Monitors
-luci-app-nlbwmon
-luci-app-vnstat2
--luci-app-watchcat
-darkstat
-
-luci-app-statistics
-collectd
-collectd-mod-rrdtool
-collectd-mod-cpu
-collectd-mod-cpufreq
-collectd-mod-dns
-collectd-mod-disk
-collectd-mod-ethstat
-collectd-mod-ipstatistics
-collectd-mod-irq
-collectd-mod-load
-collectd-mod-ping
-collectd-mod-memory
-collectd-mod-uptime
-collectd-mod-vmem
-
-### for third luci-app
-#luci-app-gost
-#luci-app-openclash
-#luci-app-mosdns
+luci-app-upnp
+luci-app-wireguard

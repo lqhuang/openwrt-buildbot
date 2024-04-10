@@ -14,3 +14,10 @@
 - https://forum.openwrt.org/t/packet-steering-question/72458/3
 - https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/performance_tuning_guide/network-rss
 - https://openwrt.org/docs/guide-user/network/traffic-shaping/sqm-details
+
+## Universal Plug and Play (UPnP) / NAT Port Mapping Protocol (NAT-PMP)
+
+- [What is UPnP and why you should disable it immediately](https://nordvpn.com/blog/what-is-upnp/)
+- UPnP on multiple wans?
+- [miniupnpd](https://openwrt.org/docs/guide-user/firewall/upnp/miniupnpd)
+- [Universal Plug'n'Play and NAT-PMP on OpenWrt](https://openwrt.org/docs/guide-user/firewall/upnp/upnp_setup)
