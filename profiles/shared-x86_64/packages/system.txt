@@ -135,6 +135,7 @@ prometheus-node-exporter-lua
 prometheus-node-exporter-lua-nat_traffic
 prometheus-node-exporter-lua-netstat
 prometheus-node-exporter-lua-openwrt
+prometheus-node-exporter-lua-snmp6
 Prometheus-node-exporter-lua-textfile
 prometheus-node-exporter-lua-uci_dhcp_host
 

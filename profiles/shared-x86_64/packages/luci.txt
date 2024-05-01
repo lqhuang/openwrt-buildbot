@@ -43,6 +43,7 @@ luci-app-openwisp
 luci-app-opkg
 luci-app-pbr  # better to include `pbr` and exclude `pbr-iptables`
 luci-app-smartdns
+luci-app-snmpd
 #luci-app-sqm  # depended on `iptables` now (2024-02-19).
 luci-app-udpxy
 luci-app-upnp

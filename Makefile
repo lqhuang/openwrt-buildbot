@@ -60,7 +60,7 @@ DOCKER_BUILDER := openwrt-docker-builder
 # directory to put customized files
 # Define which profile (under `profiles/` dir) to build
 DIR_PROFILES := ./profiles
-PROFILE      := x86_64-mwan
+PROFILE      := x86_64-default
 PROFILE_PATH = ${DIR_PROFILES}/${PROFILE}
 CUSTOM_PACKAGES_CONFIG := 9999.custom.config
 
@@ -73,6 +73,8 @@ CACHE_PREBUILT  := ${CACHE_DIR}/prebuilt
 
 ## Lazy default
 default: setup-openwrt-src configure all
+
+default-with-cached: pull-openwrt all
 
 ## For env debug
 show-openwrt-envs:
