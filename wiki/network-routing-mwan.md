@@ -47,15 +47,10 @@ Interfaces may not share the same name as configured members, policies or rules.
 
 Finally I deprecated it while it still depends on `iptables`.
 
-## MWAN with netifd
-
-Implemented by PBR
+## MWAN with netifd to implImplemented by PBR
 
 - [MWAN with netifd](https://openwrt.org/docs/guide-user/network/wan/multiwan/mwan_netifd)
   - Implement multi-WAN based on PBR with netifd.
   - Support dual-stack setups using IPv4 and IPv6.
   - Perform connectivity check with ICMP and ICMPv6.
   - Provide a simple failover method.
-- [PBR with netifd](https://openwrt.org/docs/guide-user/network/routing/pbr_netifd)
-- [netifd (Network Interface Daemon) – Technical Reference](https://openwrt.org/docs/techref/netifd)
-- [Routing example: PBR with iproute2](https://openwrt.org/docs/guide-user/network/routing/examples/pbr_iproute2)

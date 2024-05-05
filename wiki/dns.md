@@ -1,6 +1,7 @@
 # DNS
 
 - [DNS hijacking](https://openwrt.org/docs/guide-user/firewall/fw3_configurations/intercept_dns)
+- [fw4 Filtering traffic with IP sets by DNS](https://openwrt.org/docs/guide-user/firewall/filtering_traffic_at_ip_addresses_by_dns)
 
 ## zeroconf: mDNS
 
