@@ -1,0 +1,159 @@
+# Filesystem
+dosfstools  # fat32
+e2fsprogs   # ext4
+libblkid1   # exfat
+f2fs-tools  # f2fs
+xfsprogs    # xfs
+xfs-mkfs    # avoid `mkfs.xfs` not found
+
+# kernel
+libpcap
+libxdp
+qosify
+xdp-filter
+xdp-loader
+xdpdump
+zlib
+
+nft-qos
+-qos-scripts  # will add `iptables` as deps
+-sqm-scripts  # will add `iptables` as deps
+-swconfig
+-odhcpd-ipv6only
+
+attendedsysupgrade-common
+auc
+bridge
+
+ntpd
+generate-ipv6-address
+openwrt-keyring
+ca-certificates
+
+#coreutils
+
+## DHCP and DNS
+-dnsmasq  # will be conflict with `dnsmasq-full`
+dnsmasq-full
+### CONFIG OPTIONS for dnsmasq-full
+dnsmasq_full_dhcp
+dnsmasq_full_dhcpv6
+dnsmasq_full_dnssec
+dnsmasq_full_auth
+dnsmasq_full_nftset
+dnsmasq_full_conntrack
+
+## Network
+ip-full
+ss
+
+###
+# Utilities
+###
+
+## for compression
+bzip2
+gzip
+lz4
+pigz
+unzip
+xz
+zstd
+
+## Disc
+fdisk  # is used to create/modify partitions on a drive initialized with MBR scheme
+gdisk  # is used to create/modify partitions on a drive initialized with GPT scheme
+sgdisk # A command-line program intended for use in scripts or by experts who need quick and direct access to a specific feature
+cgdisk # A curses-based interactive text-mode program similar to cfdisk
+lsblk
+blkid
+nvme-cli
+parted
+losetup
+resize2fs
+fstools
+blockd
+block-mount
+
+## Editors
+# vim
+vim-fuller  # Fixed "Failed to source defaults.vim"
+
+## Time Zone info
+zoneinfo-core
+zoneinfo-america
+zoneinfo-asia
+zoneinfo-europe
+
+## Misc
+diffutils
+grep
+irqbalance
+less
+rng-tools
+tar
+tree
+which
+
+bash
+zsh
+wget
+curl
+rsync
+rsyncd
+htop
+tcpdump
+iperf3
+bind-dig
+dnstop
+
+# end of Utilities
+
+## for mdns
+umdns
+#avahi-nodbus-daemon
+#avahi-daemon-service-http
+#avahi-dnsconfd
+## NOTE: too heavy, requiring dbus
+##avahi-utils
+
+## for users and sudo
+shadow-utils
+sudo
+
+## Optional improve
+bpftool-full
+ddns-scripts-cloudflare
+wireguard-tools
+adguardhome
+
+## monitoring
+#syslog-ng
+openwisp-config
+openwisp-monitoring
+prometheus-node-exporter-lua
+prometheus-node-exporter-lua-nat_traffic
+prometheus-node-exporter-lua-netstat
+prometheus-node-exporter-lua-openwrt
+prometheus-node-exporter-lua-snmp6
+Prometheus-node-exporter-lua-textfile
+prometheus-node-exporter-lua-uci_dhcp_host
+
+
+## Web Servers/Proxies
+haproxy
+tcping
+shadowsocks-rust
+smartdns
+naiveproxy
+sing-box
+
+# https://github.com/openwrt/packages/issues/22383
+# ../../vendor/github.com/quic-go/quic-go/internal/qtls/go121.go:5:13: cannot use "The version of quic-go you're using can't be built on Go 1.21 yet. For more details, please see https://github.com/quic-go/quic-go/wiki/quic-go-and-Go-versions." (untyped string constant "The version of quic-go you're using can't be built on Go 1.21 yet. F...) as int value in variable declaration
+-cloudflared
+
+## For bugfix
+
+# `service network restart` will invoke `/sbin/wifi` !???
+# if `wifi-scripts` is not installed, it raises an error
+wifi-scripts

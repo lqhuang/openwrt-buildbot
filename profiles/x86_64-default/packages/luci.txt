@@ -1,0 +1,50 @@
+## 1. Collections
+luci
+luci-ssl
+
+## 2. Modules
+luci-mod-admin-full
+luci-mod-dashboard
+luci-mod-network
+luci-mod-rpc
+luci-mod-status
+luci-mod-system
+
+## 4. Themes
+luci-theme-bootstrap  # current default (as of Feb, 2024)
+#luci-theme-material
+
+## 5. Protocols
+luci-proto-autoip
+#luci-proto-bonding
+#luci-proto-openconnect
+luci-proto-ppp
+luci-proto-vxlan
+luci-proto-ipv6
+luci-proto-wireguard
+
+## 3. Applications
+#luci-app-acl
+luci-app-acme
+#luci-app-ahcp
+luci-app-attendedsysupgrade
+luci-app-ddns
+luci-app-email
+luci-app-firewall
+luci-app-frpc
+luci-app-irqbalance
+luci-app-minidlna
+#luci-app-mwan3  # depended on `iptables` now (2024-02-19)
+luci-app-natmap
+luci-app-nft-qos
+luci-app-nlbwmon
+luci-app-ntpc
+luci-app-openwisp
+luci-app-opkg
+luci-app-pbr  # better to include `pbr` and exclude `pbr-iptables`
+luci-app-smartdns
+luci-app-snmpd
+#luci-app-sqm  # depended on `iptables` now (2024-02-19).
+luci-app-udpxy
+luci-app-upnp
+luci-app-wireguard

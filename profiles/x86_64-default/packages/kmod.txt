@@ -1,0 +1,97 @@
+# Block devices
+kmod-nvme
+#kmod-scsi-core
+#kmod-ata-ahci
+#kmod-ata-core
+
+# Cryptographic API modules
+kmod-crypto-aead
+kmod-crypto-aes
+kmod-crypto-chacha20poly1305
+kmod-crypto-core
+kmod-crypto-deflate
+kmod-crypto-des
+kmod-crypto-ecdh
+kmod-crypto-gcm
+kmod-crypto-hash
+kmod-crypto-hmac
+kmod-crypto-sha256
+kmod-crypto-sha512
+#kmod-crypto-user
+#kmod-cryptodev
+
+# Filesystems
+kmod-fs-autofs4
+kmod-fs-exfat
+kmod-fs-ext4
+kmod-fs-f2fs
+kmod-fs-squashfs
+kmod-fs-vfat
+kmod-fs-xfs
+
+# Libraries
+#kmod-asn1-decoder
+kmod-lib-lz4
+kmod-lib-lzo
+kmod-lib-xor
+kmod-lib-zlib-deflate
+kmod-lib-zlib-inflate
+kmod-lib-zstd
+
+# Multiplexer Support
+kmod-mux-core
+
+# Netfilter Extensions
+kmod-arptables
+kmod-br-netfilter
+
+#-kmod-ip6tables
+#-kmod-ipt-core
+#-kmod-ipt-ipopt
+#-kmod-ipt-ipset
+
+kmod-netatop
+
+kmod-nft-arp
+kmod-nft-bridge
+kmod-nft-connlimit
+kmod-nft-dup-inet
+kmod-nft-nat
+kmod-nf-nat6
+kmod-nf-nathelper
+kmod-nf-nathelper-extra
+kmod-nft-netdev
+kmod-nft-offload
+kmod-nft-queue
+kmod-nft-socket
+kmod-nft-tproxy
+kmod-nft-xfrm
+
+# Network Support
+#kmod-bonding
+kmod-dnsresolver
+kmod-netlink-diag
+kmod-ppp
+kmod-mppe
+
+kmod-tcp-bbr
+kmod-tcp-hybla
+kmod-tcp-scalable
+kmod-tls
+kmod-trelay
+kmod-tun
+kmod-inet-diag
+kmod-veth
+kmod-vxlan
+kmod-wireguard
+kmod-xdp-sockets-diag
+
+# Other modules
+kmod-dma-buf
+kmod-zram
+
+# USB Support
+kmod-usb-storage
+kmod-usb-net
+kmod-usb-xhci-hcd
+kmod-usb3

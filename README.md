@@ -11,7 +11,31 @@ no wifi
 
 a web interface is usually listening at http://openwrt.local/ by default.
 
-## Notes for compiling
+## Notes for usage
+
+In the current git directory, clone the OpenWrt repository:
+
+```sh
+# done by makefile script
+make setup-openwrt-src
+# what actually did
+# git clone --depth 1 --single-branch ${OPENWRT_REPO} ./${BUILDROOT}
+```
+
+then, run script to check generated configuration for openwrt:
+
+```sh
+make configure [profile=PROFILE]
+```
+
+where `PROFILE` is the name of the profile to build. The default profile is `x86_64-default`.
+And the profile name is the name of the directory in the `profiles` directory.
+
+Finally, run the build script to output artifacts:
+
+```sh
+make all [profile=PROFILE]
+```
 
 ## Apply diff config
 
