@@ -11,3 +11,7 @@
   - `avahi`
     - [openwrt/packages/libs/avahi](https://github.com/openwrt/packages/tree/master/libs/avahi)
   - `mdnsd` + `mDNSResponder`
+
+## Debug
+
+Add `dnstracer`???
