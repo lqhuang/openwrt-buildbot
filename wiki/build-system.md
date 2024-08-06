@@ -238,6 +238,25 @@ classified by the target platform and subtarget
 
 ## Tips
 
+### Building a single package
+
+Try install deps first
+
+```
+make tools/install
+make toolchain/install
+```
+
+then
+
+```
+make package/nucrses/compile
+```
+
+Ref:
+
+- [Toolchain / Building a single package](https://openwrt.org/docs/guide-developer/toolchain/single.package)
+
 ### Warnings, errors and tracing
 
 The parameter `V=x` specifies level of messages in the process of the build.

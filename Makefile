@@ -193,7 +193,6 @@ defconfig:
 	@echo "Check and generate .config file ..."
 	make -C ${BUILDROOT} defconfig
 	# make  -C ${BUILDROOT} kernel_menuconfig # CONFIG_TARGET=subtarget
-	cp -f ${BUILDROOT}/.config ${BUILD_ARTIFACTS}/config.buildinfo
 
 configure: provision feeds feeds defconfig
 reconfigure: provision defconfig
@@ -221,7 +220,7 @@ collect:
 	rsync -aP -qi --exclude packages ${OUTPUTROOT}/ ${BUILD_ARTIFACTS}/${VERSION}/
 	cp -f ${BUILDROOT}/.config ${BUILD_ARTIFACTS}/${VERSION}/config-full.buildinfo
 
-all: configure download clean build
+all: configure download clean build collect
 
 clean:
 	rm -rf ${BUILDROOT}/bin
