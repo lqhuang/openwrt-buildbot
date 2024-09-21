@@ -148,11 +148,11 @@ setup-cache:
 	# ln -s ${CACHE_DL} ${BUILDROOT}/dl
 	# ln -s ${CACHE_CCACHE} ${BUILDROOT}/.ccache
 	rsync -ah ${CACHE_DL}/ ${BUILDROOT}/dl/
-	rsync -ah ${CACHE_CCACHE}/ ${BUILDROOT}/.ccache/
+	# rsync -ah ${CACHE_CCACHE}/ ${BUILDROOT}/.ccache/
 
 backup-cache:
 	rsync -ah ${BUILDROOT}/dl/ ${CACHE_DL}/
-	rsync -ah ${BUILDROOT}/.ccache/ ${CACHE_CCACHE}/
+	# rsync -ah ${BUILDROOT}/.ccache/ ${CACHE_CCACHE}/
 
 #########
 

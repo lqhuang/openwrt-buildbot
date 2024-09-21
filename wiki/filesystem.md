@@ -58,3 +58,23 @@ Basically, it could be formatted at the first boot time.
 losetup -a
 losetup -f
 ```
+
+## debug for `fstab` or `mount`
+
+According to official document [Extroot configuration
+: Troubleshooting
+](https://openwrt.org/docs/guide-user/additional-software/extroot_configuration#troubleshooting)
+
+> Analyze the preinit stage of the boot log:
+>
+> ```sh
+> block info; uci show fstab; logread | sed -n -e "/- preinit -/,/- init -/p"
+> ```
+
+The last `logread` command would actually show nothing, which should be replaced by `dmesg`.
+
+```sh
+dmesg | sed -n -e "/ preinit /,/ init /p"
+```
+
+Thanks @rzighel for [revising command](https://forum.openwrt.org/t/setting-up-overlay-on-usb-drive/42432/10).

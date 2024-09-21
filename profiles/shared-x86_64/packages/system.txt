@@ -104,7 +104,7 @@ rsyncd
 htop
 tcpdump
 iperf3
-bind-dig
+knot-dig
 dnstop
 
 # end of Utilities

@@ -1,5 +1,6 @@
 .DS_Store
 *.custom.config
+.cache/
 openwrt/
 openwrt-imagebuilder/
 openwrt-llvm-bpf/
