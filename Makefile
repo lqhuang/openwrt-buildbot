@@ -19,7 +19,7 @@ NPROC = $(shell nproc)
 
 ## Envs for OpenWrt
 OPENWRT_REPO := https://github.com/openwrt/openwrt.git
-OPENWRT_VERSION ?= snapshots
+OPENWRT_VERSION ?= 24.10.0
 ifeq (${OPENWRT_VERSION}, snapshots)
 	OPENWRT_URL_VERSION := snapshots
 	ARTIFACT_PREFIX     :=
@@ -30,8 +30,8 @@ endif
 OPENWRT_TARGET      := x86/64
 OPENWRT_TARGET_NAME := x86_64
 OPENWRT_TARGET_VAR  := $(subst /,-,${OPENWRT_TARGET})
-GCC_VERSION         := 12.3.0
-LLVM_VERSION        := 15.0.7
+GCC_VERSION         := 13.3.0
+LLVM_VERSION        := 18.1.7
 
 # url for artifacts
 OPENWRT_URL_DOWNLOADS := https://downloads.openwrt.org
@@ -94,10 +94,11 @@ show-nproc:
 bootstrap:
 	sudo -E apt update -y -qq
 	sudo -E apt full-upgrade -y -qq
+	# python3-distutils is deprecated after Ubuntu 24.04
 	sudo -E apt install -y --no-install-recommends --no-install-suggests \
 		ca-certificates \
 		wget curl xz-utils bzip2 unzip less rsync git file gawk \
-		build-essential make mold python3 python3-distutils \
+		build-essential make mold python3 \
 		libncurses-dev
 	sudo -E apt autoremove -y -qq --purge
 	sudo -E apt clean -qq

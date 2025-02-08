@@ -80,3 +80,4 @@ The firmware make process automatically creates the configuration diff file
 - [freifunk-berlin/ansible](https://github.com/freifunk-berlin/ansible): ansible
   config management for Freifunk Berlin infrastructure. Holds buildbot,
   IP-Addr-management and others
+- [moetayuko/openwrt-cloudflared](https://github.com/moetayuko/openwrt-cloudflared): Cloudflared for OpenWRT compiled against Go with Cloudflare experimental patches.

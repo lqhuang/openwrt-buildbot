@@ -44,3 +44,8 @@
 - https://github.com/benisai/Openwrt-Monitoring
 - https://blog.christophersmart.com/2019/09/09/monitoring-openwrt-with-collectd-influxdb-and-grafana/
 - https://grafana.com/docs/grafana-cloud/send-data/metrics/metrics-prometheus/prometheus-config-examples/openwrt-openwrt-packages/
+
+## Nginx
+
+- [OpenWrt Wiki - Accessing LuCI web interface securely](https://openwrt.org/docs/guide-user/luci/luci.secure): no description found
+- [OpenWrt Wiki - Nginx webserver](https://openwrt.org/docs/guide-user/services/webserver/nginx)

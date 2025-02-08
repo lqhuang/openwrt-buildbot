@@ -57,13 +57,15 @@ if __name__ == "__main__":
             "Could specify only one option between '--write' and '--append'."
         )
 
+    lines = []
     if is_glob_pattern(args.files):
         files = tuple(Path("").glob(args.files))
         if not files:
             raise ValueError("Input files don't not exist")
-        lines = [line for f in files for line in f.read_text().splitlines()]
+        for f in files:
+            for line in f.read_text().splitlines():
+                lines.append(line)
     else:
-        lines = []
         for each in args.files:
             input_file = Path(each).resolve()
             if not input_file.exists():
@@ -84,7 +86,7 @@ if __name__ == "__main__":
     elif args.append:
         mode = "a"
         output = Path(args.output).resolve()
-        with output.open(mode) as f:
-            f.writelines(output_lines)
+        with output.open(mode) as fh:
+            fh.writelines(output_lines)
     else:  # write to stdout
         print("\n".join(output_lines))

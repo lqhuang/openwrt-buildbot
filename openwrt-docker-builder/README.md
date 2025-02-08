@@ -24,3 +24,5 @@
 - https://hub.docker.com/r/openwrt/imagebuilder
 - https://github.com/openwrt/docker/pkgs/container/sdk
 - https://github.com/openwrt/openwrt/pkgs/container/toolchain
+- [openwrt/gh-action-sdk](https://github.com/openwrt/gh-action-sdk): GitHub CI action to build packages via SDK
+- [stupidloud/cachewrtbuilder](https://github.com/stupidloud/cachewrtbuilder): This action caches builds to speed up openwrt compilation.
