@@ -15,7 +15,7 @@
 
 ```sh
 apt install build-essential clang g++ gcc-multilib g++-multilib \
-    libncurses-dev libncursesw-dev libssl-dev zlib1g-dev \
+    libncurses-dev libssl-dev zlib1g-dev \
     flex bison gawk git gettext xsltproc rsync curl wget unzip python3
 ```
 
@@ -235,6 +235,18 @@ classified by the target platform and subtarget
   - `make target/linux/clean`
   - `make package/base-files/clean`
   - `make package/luci/clean`
+
+## Speedup building
+
+### Using prebuilt toolchains
+
+### Using `ccache`
+
+- https://github.com/openwrt/buildbot/blob/main/scripts/ccache.sh
+
+### Other cacheable artifacts
+
+- https://github.com/stupidloud/cachewrtbuild
 
 ## Tips
 

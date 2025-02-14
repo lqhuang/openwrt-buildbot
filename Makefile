@@ -45,6 +45,7 @@ OPENWRT_SDK           := openwrt-sdk${ARTIFACT_PREFIX}-${OPENWRT_TARGET_VAR}_gcc
 OPENWRT_LLVM_BPF      := llvm-bpf-${LLVM_VERSION}.${FILE_PATTERN}
 OPENWRT_TOOLCHAIN     := openwrt-toolchain${ARTIFACT_PREFIX}-${OPENWRT_TARGET_VAR}_gcc-${GCC_VERSION}_musl.${FILE_PATTERN}
 OPENWRT_IMAGEBUILDER  := openwrt-imagebuilder${ARTIFACT_PREFIX}-${OPENWRT_TARGET_VAR}.${FILE_PATTERN}
+ARTIFACT_SRC          := https://github.com/openwrt/openwrt/archive/refs/tags/v${OPENWRT_VERSION}.tar.gz
 ARTIFACT_SDK          := ${OPENWRT_URL_RELEASE}/${OPENWRT_TARGET}/${OPENWRT_SDK}
 ARTIFACT_LLVM_BPF     := ${OPENWRT_URL_RELEASE}/${OPENWRT_TARGET}/${OPENWRT_LLVM_BPF}
 ARTIFACT_TOOLCHAIN    := ${OPENWRT_URL_RELEASE}/${OPENWRT_TARGET}/${OPENWRT_TOOLCHAIN}
@@ -60,8 +61,8 @@ DOCKER_BUILDER := openwrt-docker-builder
 # directory to put customized files
 # Define which profile (under `profiles/` dir) to build
 DIR_PROFILES := ./profiles
-PROFILE      := x86_64-default
-PROFILE_PATH = ${DIR_PROFILES}/${PROFILE}
+PROFILE      ?= x86_64-default
+PROFILE_PATH ?= ${DIR_PROFILES}/${PROFILE}
 CUSTOM_PACKAGES_CONFIG := 9999.custom.config
 
 # directory to store final artifacts
@@ -78,14 +79,15 @@ default-with-cached: pull-openwrt all
 
 ## For env debug
 show-openwrt-envs:
-	echo ${OPENWRT_VERSION}
-	echo ${OPENWRT_URL_RELEASE}
-	echo ${OPENWRT_TARGET}
-	echo ${ARTIFACT_SDK}
-	echo ${ARTIFACT_LLVM_BPF}
-	echo ${ARTIFACT_TOOLCHAIN}
-	echo ${ARTIFACT_IMAGEBUILDER}
-	echo ${PROFILE_PATH}
+	@echo OPENWRT_VERSION=${OPENWRT_VERSION}
+	@echo OPENWRT_URL_RELEASE=${OPENWRT_URL_RELEASE}
+	@echo OPENWRT_TARGET=${OPENWRT_TARGET}
+	@echo ARTIFACT_SRC=${ARTIFACT_SRC}
+	@echo ARTIFACT_SDK=${ARTIFACT_SDK}
+	@echo ARTIFACT_LLVM_BPF=${ARTIFACT_LLVM_BPF}
+	@echo ARTIFACT_TOOLCHAIN=${ARTIFACT_TOOLCHAIN}
+	@echo ARTIFACT_IMAGEBUILDER=${ARTIFACT_IMAGEBUILDER}
+	@echo PROFILE_PATH=${PROFILE_PATH}
 
 show-nproc:
 	echo ${NPROC}
@@ -102,6 +104,11 @@ bootstrap:
 		libncurses-dev
 	sudo -E apt autoremove -y -qq --purge
 	sudo -E apt clean -qq
+
+download-src:
+	mkdir -p ${BUILDROOT}
+	rm -rf ./${BUILDROOT}/*
+	curl -L ${ARTIFACT_SRC} | tar --strip-component=1 -C ${BUILDROOT} -xzf -
 
 download-image-builder:
 	curl -L ${ARTIFACT_IMAGEBUILDER} | tar --strip-component=1 -C ./openwrt-imagebuilder -xJf -
@@ -173,7 +180,7 @@ bump-config-docker: reformat-packages
 	cat ${PROFILE_PATH}/config/*.config > ${DOCKER_BUILDER}/.generated.config
 
 provision: bump-config
-	pushd ${BUILDROOT}; git restore feeds.conf.default; popd
+	# pushd ${BUILDROOT}; git restore feeds.conf.default; popd
 	sed -i 's/src-git telephony/#src-git telephony/g' ${BUILDROOT}/feeds.conf.default
 	cat ${PROFILE_PATH}/feeds.conf.default >> ${BUILDROOT}/feeds.conf.default
 	rsync -aP -q -kL --delete ${PROFILE_PATH}/files ${BUILDROOT}/
@@ -227,7 +234,8 @@ collect:
 	rsync -aP -qi --exclude packages ${OUTPUTROOT}/ ${BUILD_ARTIFACTS}/${VERSION}/
 	cp -f ${BUILDROOT}/.config ${BUILD_ARTIFACTS}/${VERSION}/config-full.buildinfo
 
-all: configure download clean build collect
+# run build
+all: clean build collect
 
 clean:
 	rm -rf ${BUILDROOT}/bin
